@@ -1,0 +1,86 @@
+.recipe {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    height: 364px;
+    width: 380px;
+
+    margin: 0;
+    margin-bottom: 50px;
+    background: #C7BEBE;
+    border-radius: 5px;
+  }
+
+  &__image {
+    height: 178px;
+  }
+
+  &__body {
+    background: #E7E7E7; 
+    padding: 15px;  
+    flex: 1 1 auto; 
+    border-radius: 0 0 5px 5px; 
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h2 {
+      margin-top: 0;
+      font-size: 18px;
+      font-weight: 400;
+    }
+
+    p {
+      margin-top: 0;
+      font-size: 18px;
+      font-weight: 700;
+    }
+  }
+
+  &__icon {
+    padding-right: 5px;
+  }
+
+  &__subbody {
+    display: flex;
+
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  &__ingredients {
+    width: 50%;
+
+    &--name {
+      font-weight: 700;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    ul {
+      padding-left: 0;
+      margin: 0;
+    }
+    li {
+      display: flex;
+      list-style: none;
+    }
+  }
+
+  &__description {
+    width: 50%;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+}
