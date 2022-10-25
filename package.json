@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "sass": "sass --watch ./sass/main.scss:./css/style.css",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "sass": "^1.55.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.26.0"
+  }
+}
