@@ -14,7 +14,7 @@ export class RecipeCard {
         <div class="recipe__body">
           <div class="recipe__header">
             <h2>${this.recipe.name}</h2>
-            <p><i class="recipe__icon fa-regular fa-clock"></i>${this.recipe.time}</p>
+            <p><i class="recipe__icon fa-regular fa-clock"></i>${this.recipe.time} min</p>
           </div>
           <div class="recipe__subbody">
             <div class="recipe__ingredients">

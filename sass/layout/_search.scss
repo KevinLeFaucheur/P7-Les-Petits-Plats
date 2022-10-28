@@ -61,6 +61,10 @@
       &--blue { background: #3282F7; }
       &--green { background: #68D9A4; }
       &--red { background: #ED6454; }
+
+      .close {
+        cursor: pointer;
+      }
     }
   }
 

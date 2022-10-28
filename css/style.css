@@ -85,6 +85,9 @@ header .logo h1 {
 #search__keywords .search__keyword--red {
   background: #ED6454;
 }
+#search__keywords .search__keyword .close {
+  cursor: pointer;
+}
 #search__tags {
   display: flex;
   margin-bottom: 25px;
@@ -189,6 +192,16 @@ header .logo h1 {
   cursor: pointer;
   position: relative;
 }
+.selected::after {
+  font: var(--fa-font-solid);
+  content: "\f107";
+  position: absolute;
+  height: 100%;
+  width: 32px;
+  right: 10px;
+  top: calc(50% - 8px);
+  transform: all 250ms;
+}
 
 .select__tags {
   position: absolute;
@@ -214,6 +227,11 @@ header .logo h1 {
 }
 .select__tags.active {
   opacity: 1;
+}
+.select__tags.active + .selected::after {
+  font: var(--fa-font-solid);
+  content: "\f107";
+  transform: rotateX(180deg);
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -15,7 +15,7 @@ export class Select {
       `
       <div class='select-box'>
         <div class="selected search__tag search__tag--${this.color}">
-          <p>${this.tagType}</p><i class="fa-sharp fa-solid fa-angle-down"></i>
+          <p>${this.tagType}</p>
         </div>
 
         <div class='select__tags select__tags--${this.color}'>
@@ -26,7 +26,10 @@ export class Select {
     const selected = selectFragment.querySelector('.selected');
     const selectTags = selectFragment.querySelector('.select__tags');
 
-    selected.addEventListener('click', () => selectTags.classList.toggle('active'));
+    selected.addEventListener('click', () => {
+      
+      selectTags.classList.toggle('active')
+    });
 
     return selectFragment;
 

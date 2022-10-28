@@ -1,5 +1,6 @@
 // import * as Data from './utils/data.js';
 import { recipes } from '../data/recipes.js';
+import { Keyword } from './templates/Keyword.js';
 import { RecipeCard } from './templates/RecipeCard.js';
 import { Select } from './templates/Select.js';
 
@@ -20,11 +21,23 @@ const displaySelectors = () => {
       searchTags.appendChild(select);
     }
   );
+};
 
+const displayKeywords = () => {
+  const searchKeywords = document.getElementById('search__keywords');
+
+  [['choco', 'Ingredients'], 
+   ['four', 'Appareils'], 
+   ['couteau', 'Ustensiles']
+  ].forEach(element => {
+    let keyword = new Keyword(element[0], element[1]).createKeyword();
+    searchKeywords.appendChild(keyword);
+  });
 };
 
 const initialize = () => {
   displaySelectors();
+  displayKeywords();
   displayRecipes(recipes);
 };
 

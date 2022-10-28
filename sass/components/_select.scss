@@ -1,12 +1,23 @@
 .selected {
   cursor: pointer;
   position: relative;
+
+  &::after {
+    font: var(--fa-font-solid);
+    content: "\f107";
+    position: absolute;
+    height: 100%;
+    width: 32px;
+    right: 10px;
+    top: calc(50% - 8px);
+    transform: all 250ms;
+  }
 }
 
 .select__tags {
   position: absolute;
   z-index: 10;
-  
+
   color: #fff;
   border-radius: 5px;
   width: 170px;
@@ -25,5 +36,11 @@
 
   &.active {
     opacity: 1;
+
+    + .selected::after{
+      font: var(--fa-font-solid);
+      content: "\f107";
+      transform: rotateX(180deg);
+    }
   }
 }
