@@ -182,6 +182,38 @@ header .logo h1 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.selected {
+  cursor: pointer;
+  position: relative;
+}
+
+.select__tags {
+  position: absolute;
+  z-index: 10;
+  color: #fff;
+  border-radius: 5px;
+  width: 170px;
+  margin-top: 5px;
+  padding: 20px;
+  font-size: 14px;
+  font-weight: 400;
+  opacity: 0;
+  transition: all 250ms;
+}
+.select__tags--blue {
+  background: #3282F7;
+}
+.select__tags--green {
+  background: #68D9A4;
+}
+.select__tags--red {
+  background: #ED6454;
+}
+.select__tags.active {
+  opacity: 1;
 }
 
 /*# sourceMappingURL=style.css.map */
