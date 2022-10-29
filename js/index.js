@@ -7,16 +7,20 @@ import { Select } from './templates/Select.js';
 const displayRecipes = (recipes) => {
   for (let i = 0; i < 6; i++) {
     let recipe = new RecipeCard(recipes[i]).createRecipeCard();
-    // console.log(recipes[i]);
     document.getElementById('recipes').appendChild(recipe);
   }
 };
 
 const displaySelectors = () => {
   const searchTags = document.getElementById('search__tags');
-  let testTags = ['farine', 'oeuf', 'vanille', 'chocolat', 'coco'];
+  let testTags = ['farine', 'oeuf', 'vanille', 'chocolat', 'coco',
+                  'farine', 'oeuf', 'vanille', 'chocolat', 'coco',
+                  'farine', 'oeuf', 'vanille', 'chocolat', 'coco',
+                  'farine', 'oeuf', 'vanille', 'chocolat', 'coco',
+                  'farine', 'oeuf', 'vanille', 'chocolat', 'coco',
+                  'farine', 'oeuf', 'vanille', 'chocolat', 'coco'];
 
-  ['Ingredients', 'Appareils', 'Ustensiles'].forEach(tagType => {
+  ['Ingrédients', 'Appareils', 'Ustensiles'].forEach(tagType => {
       let select = new Select(tagType, testTags).createSelect();
       searchTags.appendChild(select);
     }
@@ -26,7 +30,7 @@ const displaySelectors = () => {
 const displayKeywords = () => {
   const searchKeywords = document.getElementById('search__keywords');
 
-  [['choco', 'Ingredients'], 
+  [['choco', 'Ingrédients'], 
    ['four', 'Appareils'], 
    ['couteau', 'Ustensiles']
   ].forEach(element => {

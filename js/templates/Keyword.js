@@ -6,7 +6,7 @@ export class Keyword {
   constructor(keywordName, keywordType) {
     this.keywordName = keywordName;
     this.keywordType = keywordType;
-    this.color = keywordType === 'Ingredients' ? 'blue' : keywordType === 'Ustensiles' ? 'red' : 'green';
+    this.color = keywordType === 'Ingrédients' ? 'blue' : keywordType === 'Ustensiles' ? 'red' : 'green';
   }
 
   createKeyword = () => {

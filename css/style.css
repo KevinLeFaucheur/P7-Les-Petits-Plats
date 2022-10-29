@@ -33,7 +33,7 @@ header .logo h1 {
   justify-content: space-between;
   margin: 25px 0;
 }
-#search input::placeholder {
+#search__input::placeholder {
   color: #000000;
   opacity: 0.25;
 }
@@ -91,29 +91,6 @@ header .logo h1 {
 #search__tags {
   display: flex;
   margin-bottom: 25px;
-}
-#search__tags .search__tag {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 69px;
-  width: 170px;
-  border-radius: 5px;
-  padding: 0 20px;
-  margin-right: 20px;
-  font-size: 18px;
-  font-weight: 700;
-  vertical-align: middle;
-  color: white;
-}
-#search__tags .search__tag--blue {
-  background: #3282F7;
-}
-#search__tags .search__tag--green {
-  background: #68D9A4;
-}
-#search__tags .search__tag--red {
-  background: #ED6454;
 }
 
 .recipe {
@@ -188,31 +165,80 @@ header .logo h1 {
   overflow: hidden;
 }
 
-.selected {
+.select {
   cursor: pointer;
   position: relative;
+  box-sizing: border-box;
+  margin-right: 25px;
 }
-.selected::after {
-  font: var(--fa-font-solid);
-  content: "\f107";
+.select.active {
+  flex-grow: 2;
+  max-width: 50%;
+}
+.select.active .select__input {
+  border-radius: 5px 5px 0 0;
+  width: 100%;
+}
+.select.active > .select__icon {
+  transform: rotateX(180deg);
+}
+.select.active > ul {
+  width: 100%;
+  opacity: 1;
+  border-radius: 0 0 5px 5px;
+}
+.select__icon {
   position: absolute;
-  height: 100%;
-  width: 32px;
-  right: 10px;
-  top: calc(50% - 8px);
-  transform: all 250ms;
+  color: #FFF;
+  top: 22px;
+  right: 36px;
+  font-size: 22px;
+  z-index: 2;
 }
-
+.select__input {
+  box-sizing: border-box;
+  height: 69px;
+  border-radius: 5px;
+  padding: 0 20px;
+  border: none;
+  font-size: 18px;
+  font-weight: 700;
+  vertical-align: middle;
+  color: white;
+}
+.select__input:focus {
+  outline: none;
+}
+.select__input:focus::placeholder {
+  opacity: 0.4;
+}
+.select__input::placeholder {
+  color: #fff;
+  opacity: 1;
+}
+.select__input--blue {
+  background: #3282F7;
+}
+.select__input--green {
+  background: #68D9A4;
+}
+.select__input--red {
+  background: #ED6454;
+}
 .select__tags {
   position: absolute;
   z-index: 10;
-  color: #fff;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  box-sizing: border-box;
   border-radius: 5px;
-  width: 170px;
-  margin-top: 5px;
+  max-height: 320px;
+  margin-top: 0;
   padding: 20px;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 400;
+  color: #fff;
   opacity: 0;
   transition: all 250ms;
 }
@@ -225,13 +251,10 @@ header .logo h1 {
 .select__tags--red {
   background: #ED6454;
 }
-.select__tags.active {
-  opacity: 1;
-}
-.select__tags.active + .selected::after {
-  font: var(--fa-font-solid);
-  content: "\f107";
-  transform: rotateX(180deg);
+.select__tag {
+  box-sizing: border-box;
+  padding: 0 5px 10px 5px;
+  list-style: none;
 }
 
 /*# sourceMappingURL=style.css.map */

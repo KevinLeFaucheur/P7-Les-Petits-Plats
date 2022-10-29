@@ -6,39 +6,45 @@ export class Select {
   constructor(tagType, tagsArray) {
     this.tagType = tagType;
     this.tagsArray = tagsArray;
-    this.color = tagType === 'Ingredients' ? 'blue' : tagType === 'Ustensiles' ? 'red' : 'green';
+    this.color = tagType === 'Ingrédients' ? 'blue' : tagType === 'Ustensiles' ? 'red' : 'green';
+    this.placeholder = tagType === 'Ingrédients' ? 'ingrédient' : tagType === 'Ustensiles' ? 'ustensile' : 'appareil';
   }
 
   createSelect = () => {
 
-    const selectFragment =document.createRange().createContextualFragment(
+    const selectFragment = document.createRange().createContextualFragment(
+      // <div id='select__tags'></div>
       `
-      <div class='select-box'>
-        <div class="selected search__tag search__tag--${this.color}">
-          <p>${this.tagType}</p>
-        </div>
+      <div class='select'>
+        <input class='select__input select__input--${this.color}' placeholder='${this.tagType}'>
+        <i class="select__icon fa-sharp fa-solid fa-angle-down"></i>
 
-        <div class='select__tags select__tags--${this.color}'>
+        <ul class='select__tags select__tags--${this.color}'>
           ${this.createTagSelection()}
-        </div>
+        </ul>
       </div>`);
 
-    const selected = selectFragment.querySelector('.selected');
-    const selectTags = selectFragment.querySelector('.select__tags');
+    const select = selectFragment.querySelector('.select');
+    const selectInput = selectFragment.querySelector('.select__input');
 
-    selected.addEventListener('click', () => {
-      
-      selectTags.classList.toggle('active')
+    select.addEventListener('click', () => {
+      selectInput.placeholder = `Recherche un ${this.placeholder}`;
+      select.classList.toggle('active');
+    });
+
+    select.addEventListener('focusout', () => {
+      selectInput.placeholder = `${this.tagType}`;
+      selectInput.value = '';
+      select.classList.remove('active');
     });
 
     return selectFragment;
-
   };
 
   createTagSelection = () => {
     let tagSelection = '';
 
-    this.tagsArray.forEach(tag => tagSelection += `<div class=''>${tag}</div>`);
+    this.tagsArray.forEach(tag => tagSelection += `<li class='select__tag'>${tag}</li>`);
 
     return tagSelection;
   };

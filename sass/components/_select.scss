@@ -1,46 +1,97 @@
-.selected {
+.select {
   cursor: pointer;
   position: relative;
-
-  &::after {
-    font: var(--fa-font-solid);
-    content: "\f107";
-    position: absolute;
-    height: 100%;
-    width: 32px;
-    right: 10px;
-    top: calc(50% - 8px);
-    transform: all 250ms;
-  }
-}
-
-.select__tags {
-  position: absolute;
-  z-index: 10;
-
-  color: #fff;
-  border-radius: 5px;
-  width: 170px;
-  margin-top: 5px;
-  padding: 20px;
-
-  font-size: 14px;
-  font-weight: 400;
-
-  opacity: 0;
-  transition: all 250ms;
-
-  &--blue { background: #3282F7; }
-  &--green { background: #68D9A4; }
-  &--red { background: #ED6454; }
+  box-sizing: border-box;
+  margin-right: 25px;
 
   &.active {
-    opacity: 1;
+    flex-grow: 2;
+    max-width: 50%;
 
-    + .selected::after{
-      font: var(--fa-font-solid);
-      content: "\f107";
+    & .select__input {
+      border-radius: 5px 5px 0 0;
+      width: 100%;
+    }
+  
+    & > .select__icon {
       transform: rotateX(180deg);
     }
+  
+    & > ul {
+      width: 100%;
+      opacity: 1;
+      border-radius:  0 0 5px 5px;
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    color: #FFF;
+    top: 22px;
+    right: 36px;
+    font-size: 22px;
+    z-index: 2;
+  }
+    
+  &__input {
+    box-sizing: border-box;
+    height: 69px;
+    border-radius: 5px;
+    padding: 0 20px;
+    border: none;
+    
+    font-size: 18px;
+    font-weight: 700;
+    vertical-align: middle;
+    color: white;
+  
+    &:focus {
+      outline: none;
+
+      &::placeholder {
+        opacity: 0.4;
+      }
+    }
+  
+    &::placeholder {
+      color: #fff;
+      opacity: 1;
+    }
+
+    &--blue { background: $color-primary; }
+    &--green { background: $color-secondary; }
+    &--red { background: $color-tertiary; }
+  }
+
+  &__tags {
+    position: absolute;
+    z-index: 10;
+  
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    box-sizing: border-box;
+    border-radius: 5px;
+    max-height: 320px;
+    margin-top: 0;
+    padding: 20px;
+  
+    font-size: 18px;
+    font-weight: 400;
+    color: #fff;
+  
+    opacity: 0;
+    transition: all 250ms;
+
+    &--blue { background: $color-primary; }
+    &--green { background: $color-secondary; }
+    &--red { background: $color-tertiary; }
+  }
+  
+  &__tag {
+    box-sizing: border-box;
+    padding: 0 5px 10px 5px;
+    list-style: none;
   }
 }
