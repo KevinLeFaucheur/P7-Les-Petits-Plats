@@ -182,7 +182,8 @@ header .logo h1 {
 .select.active > .select__icon {
   transform: rotateX(180deg);
 }
-.select.active > ul {
+.select.active > .select__tags {
+  display: flex;
   width: 100%;
   opacity: 1;
   border-radius: 0 0 5px 5px;
@@ -228,7 +229,7 @@ header .logo h1 {
 .select__tags {
   position: absolute;
   z-index: 10;
-  display: flex;
+  display: none;
   flex-direction: column;
   flex-wrap: wrap;
   box-sizing: border-box;

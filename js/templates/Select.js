@@ -13,7 +13,6 @@ export class Select {
   createSelect = () => {
 
     const selectFragment = document.createRange().createContextualFragment(
-      // <div id='select__tags'></div>
       `
       <div class='select'>
         <input class='select__input select__input--${this.color}' placeholder='${this.tagType}'>
@@ -27,12 +26,12 @@ export class Select {
     const select = selectFragment.querySelector('.select');
     const selectInput = selectFragment.querySelector('.select__input');
 
-    select.addEventListener('click', () => {
+    selectInput.addEventListener('focus', () => {
       selectInput.placeholder = `Recherche un ${this.placeholder}`;
-      select.classList.toggle('active');
+      select.classList.add('active');
     });
 
-    select.addEventListener('focusout', () => {
+    selectInput.addEventListener('focusout', () => {
       selectInput.placeholder = `${this.tagType}`;
       selectInput.value = '';
       select.classList.remove('active');
