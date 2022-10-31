@@ -1,6 +1,10 @@
 /*
  * Builds the select element, receives a tag type and tags array
 */
+import { getIngredients } from "../search.js";
+import { recipes } from '/data/recipes.js';
+import { updateSelectors } from '../index.js';
+
 export class Select {
 
   constructor(tagType, tagsArray) {
@@ -19,7 +23,7 @@ export class Select {
         <i class="select__icon fa-sharp fa-solid fa-angle-down"></i>
 
         <ul class='select__tags select__tags--${this.color}'>
-          ${this.createTagSelection()}
+          ${this.createTagSelection(this.tagsArray)}
         </ul>
       </div>`);
 
@@ -37,14 +41,30 @@ export class Select {
       select.classList.remove('active');
     });
 
+    selectInput.addEventListener('input', (event) => {
+      if(event.target.value.length >= 3) this.searchTag(event.target.value);
+    });
+
     return selectFragment;
   };
 
-  createTagSelection = () => {
+  createTagSelection = (tagsArray) => {
     let tagSelection = '';
 
-    this.tagsArray.forEach(tag => tagSelection += `<li class='select__tag'>${tag}</li>`);
+    tagsArray.forEach(tag => tagSelection += `<li class='select__tag'>${tag}</li>`);
 
     return tagSelection;
+  };
+
+  updateTagSelection = (filteredTags) => {
+    let selectTags = document.querySelector(`.select__tags--${this.color}`);
+
+    selectTags.innerHTML = '' + this.createTagSelection(filteredTags);
+  };
+
+  searchTag = (string) => {
+    let filteredIngredients = getIngredients(string, recipes);
+    console.log(filteredIngredients);
+    this.updateTagSelection(filteredIngredients);
   };
 }
