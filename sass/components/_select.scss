@@ -10,7 +10,8 @@
 
     & .select__input {
       border-radius: 5px 5px 0 0;
-      width: 100%;
+      // width: 100%;
+      animation: open-input 400ms forwards ease-in-out;
     }
   
     & > .select__icon {
@@ -19,9 +20,10 @@
   
     & > .select__tags {
       display: flex;
-      width: 100%;
       opacity: 1;
       border-radius:  0 0 5px 5px;
+      // width: 100%;
+      animation: open-input 400ms forwards ease-in-out;
     }
   }
 
@@ -94,5 +96,15 @@
     box-sizing: border-box;
     padding: 0 5px 10px 5px;
     list-style: none;
+  }
+}
+
+@keyframes open-input {
+  0% {
+    width: 50%;
+  }
+
+  100% {
+    width: 100%;
   }
 }
