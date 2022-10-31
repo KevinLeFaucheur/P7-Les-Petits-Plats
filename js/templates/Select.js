@@ -3,7 +3,7 @@
 */
 import { getIngredients } from "../search.js";
 import { recipes } from '/data/recipes.js';
-import { updateSelectors } from '../index.js';
+import { Keyword } from "./Keyword.js";
 
 export class Select {
 
@@ -23,12 +23,13 @@ export class Select {
         <i class="select__icon fa-sharp fa-solid fa-angle-down"></i>
 
         <ul class='select__tags select__tags--${this.color}'>
-          ${this.createTagSelection(this.tagsArray)}
         </ul>
       </div>`);
 
     const select = selectFragment.querySelector('.select');
     const selectInput = selectFragment.querySelector('.select__input');
+
+    select.querySelector('.select__tags').appendChild(this.createTagSelection(this.tagsArray));
 
     selectInput.addEventListener('focus', () => {
       selectInput.placeholder = `Recherche un ${this.placeholder}`;
@@ -38,7 +39,7 @@ export class Select {
     selectInput.addEventListener('focusout', () => {
       selectInput.placeholder = `${this.tagType}`;
       selectInput.value = '';
-      select.classList.remove('active');
+      setTimeout(() => select.classList.remove('active'), 50);
     });
 
     selectInput.addEventListener('input', (event) => {
@@ -49,17 +50,28 @@ export class Select {
   };
 
   createTagSelection = (tagsArray) => {
-    let tagSelection = '';
+    let tagSelectionFragment = new DocumentFragment();
 
-    tagsArray.forEach(tag => tagSelection += `<li class='select__tag'>${tag}</li>`);
+    tagsArray.forEach(tag => {
+      let tagFragment = document.createRange().createContextualFragment(`<li class='select__tag'>${tag}</li>`);
 
-    return tagSelection;
+      tagSelectionFragment.append(tagFragment);
+    });
+
+    tagSelectionFragment.querySelectorAll('.select__tag').forEach((element, index) => {
+      element.addEventListener('mousedown', () => {
+        console.log(`Adding ${tagsArray[index]} to keywords`);
+        document.getElementById('search__keywords').appendChild(new Keyword(tagsArray[index], this.tagType).createKeyword());
+      });
+    });
+
+    return tagSelectionFragment;
   };
 
   updateTagSelection = (filteredTags) => {
     let selectTags = document.querySelector(`.select__tags--${this.color}`);
-
-    selectTags.innerHTML = '' + this.createTagSelection(filteredTags);
+    selectTags.innerHTML = '';
+    selectTags.appendChild(this.createTagSelection(filteredTags));
   };
 
   searchTag = (string) => {

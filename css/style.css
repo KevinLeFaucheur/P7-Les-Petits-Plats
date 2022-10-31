@@ -257,6 +257,10 @@ header .logo h1 {
   padding: 0 5px 10px 5px;
   list-style: none;
 }
+.select__tag:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
 
 @keyframes open-input {
   0% {
