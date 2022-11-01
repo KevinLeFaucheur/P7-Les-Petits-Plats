@@ -52,7 +52,7 @@ const displayKeywords = () => {
 
 const initialize = () => {
   displaySelectors(debugTags);
-  displayKeywords();
+  // displayKeywords();
   displayRecipes(recipes);
 };
 

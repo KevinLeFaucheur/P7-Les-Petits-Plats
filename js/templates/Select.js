@@ -1,8 +1,7 @@
 /*
  * Builds the select element, receives a tag type and tags array
 */
-import { getIngredients } from "../search.js";
-import { recipes } from '/data/recipes.js';
+import { getTagsByTypeAndFilter } from "../search.js";
 import { Keyword } from "./Keyword.js";
 
 export class Select {
@@ -60,7 +59,7 @@ export class Select {
 
     tagSelectionFragment.querySelectorAll('.select__tag').forEach((element, index) => {
       element.addEventListener('mousedown', () => {
-        console.log(`Adding ${tagsArray[index]} to keywords`);
+        console.log(`Adding ${tagsArray[index]} to keywords`); // Debug console
         document.getElementById('search__keywords').appendChild(new Keyword(tagsArray[index], this.tagType).createKeyword());
       });
     });
@@ -74,9 +73,9 @@ export class Select {
     selectTags.appendChild(this.createTagSelection(filteredTags));
   };
 
-  searchTag = (string) => {
-    let filteredIngredients = getIngredients(string, recipes);
-    console.log(filteredIngredients);
+  searchTag = (filter) => {
+    let filteredIngredients = getTagsByTypeAndFilter(this.tagType, filter);
+    console.log(filteredIngredients); // Debug console
     this.updateTagSelection(filteredIngredients);
   };
 }
