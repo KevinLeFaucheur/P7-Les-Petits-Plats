@@ -1,15 +1,10 @@
 // import * as Data from './utils/data.js';
 import { recipes } from '/data/recipes.js';
-import { Keyword } from './templates/Keyword.js';
+// import { Keyword } from './templates/Keyword.js';
 import { RecipeCard } from './templates/RecipeCard.js';
 import { Select } from './templates/Select.js';
 
-const debugTags = ['farine', 'oeuf', 'vanille', 'chocolat', 'coco',
-'farine', 'oeuf', 'vanille', 'chocolat', 'coco',
-'farine', 'oeuf', 'vanille', 'chocolat', 'coco',
-'farine', 'oeuf', 'vanille', 'chocolat', 'coco',
-'farine', 'oeuf', 'vanille', 'chocolat', 'coco',
-'farine', 'oeuf', 'vanille', 'chocolat', 'coco'];
+export const currentKeywords = [];
 
 export const updateRecipes = () => {
   document.getElementById('recipes').innerHTML = '';
@@ -28,30 +23,30 @@ export const updateSelectors = (updatedTags) => {
   displaySelectors(updatedTags);
 }
 
-const displaySelectors = (tags) => {
+const displaySelectors = () => {
   const searchTags = document.getElementById('search__tags');
 
   ['Ingrédients', 'Appareils', 'Ustensiles'].forEach(tagType => {
-      let select = new Select(tagType, tags).createSelect();
+      let select = new Select(tagType).createSelect();
       searchTags.appendChild(select);
     }
   );
 };
 
-const displayKeywords = () => {
-  const searchKeywords = document.getElementById('search__keywords');
+// const displayKeywords = () => {
+//   const searchKeywords = document.getElementById('search__keywords');
 
-  [['choco', 'Ingrédients'], 
-   ['four', 'Appareils'], 
-   ['couteau', 'Ustensiles']
-  ].forEach(element => {
-    let keyword = new Keyword(element[0], element[1]).createKeyword();
-    searchKeywords.appendChild(keyword);
-  });
-};
+//   [['choco', 'Ingrédients'], 
+//    ['four', 'Appareils'], 
+//    ['couteau', 'Ustensiles']
+//   ].forEach(element => {
+//     let keyword = new Keyword(element[0], element[1]).createKeyword();
+//     searchKeywords.appendChild(keyword);
+//   });
+// };
 
 const initialize = () => {
-  displaySelectors(debugTags);
+  displaySelectors();
   // displayKeywords();
   displayRecipes(recipes);
 };

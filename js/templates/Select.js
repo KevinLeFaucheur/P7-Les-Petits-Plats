@@ -2,13 +2,14 @@
  * Builds the select element, receives a tag type and tags array
 */
 import { getTagsByTypeAndFilter } from "../search.js";
+import { currentKeywords } from "../index.js";
 import { Keyword } from "./Keyword.js";
 
 export class Select {
 
-  constructor(tagType, tagsArray) {
+  constructor(tagType) {
     this.tagType = tagType;
-    this.tagsArray = tagsArray;
+    this.tagsArray = getTagsByTypeAndFilter(tagType, '');
     this.color = tagType === 'Ingrédients' ? 'blue' : tagType === 'Ustensiles' ? 'red' : 'green';
     this.placeholder = tagType === 'Ingrédients' ? 'ingrédient' : tagType === 'Ustensiles' ? 'ustensile' : 'appareil';
   }
@@ -42,7 +43,7 @@ export class Select {
     });
 
     selectInput.addEventListener('input', (event) => {
-      if(event.target.value.length >= 3) this.searchTag(event.target.value);
+      /*if(event.target.value.length >= 3)*/ this.searchTag(event.target.value);
     });
 
     return selectFragment;
@@ -61,6 +62,9 @@ export class Select {
       element.addEventListener('mousedown', () => {
         console.log(`Adding ${tagsArray[index]} to keywords`); // Debug console
         document.getElementById('search__keywords').appendChild(new Keyword(tagsArray[index], this.tagType).createKeyword());
+        currentKeywords.push(tagsArray[index]);
+        tagsArray.splice(index, 1);
+        this.updateTagSelection(tagsArray);
       });
     });
 
