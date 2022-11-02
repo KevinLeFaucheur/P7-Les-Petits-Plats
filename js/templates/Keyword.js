@@ -1,6 +1,8 @@
 /*
  * Constructor for a keyword element, receives name and type
 */
+import { removeSearchKeyword } from "../index.js";
+
 export class Keyword {
 
   constructor(keywordName, keywordType) {
@@ -19,9 +21,10 @@ export class Keyword {
 
     keywordFragment
       .querySelector('.close')
-      .addEventListener('click', (event) =>  
-        event.target.parentElement.remove()
-      );
+      .addEventListener('click', (event) => {
+        event.target.parentElement.remove();
+        removeSearchKeyword(this.keywordName);
+    });
 
     return keywordFragment;
   };

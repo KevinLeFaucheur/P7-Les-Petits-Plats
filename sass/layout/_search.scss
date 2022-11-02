@@ -40,6 +40,7 @@
   
   &__keywords {
     display: flex;
+    flex-wrap: wrap;
     margin-bottom: 15px;
 
     .search__keyword {
@@ -48,10 +49,10 @@
       justify-content: space-between;
 
       height: 37px;
-      width: 107px;
+      // width: 107px;
       border-radius: 5px;
       padding: 0 20px;
-      margin-right: 20px;
+      margin: 0 20px 10px 0;
 
       font-size: 14px;
       font-weight: 700;
@@ -61,6 +62,10 @@
       &--blue { background: #3282F7; }
       &--green { background: #68D9A4; }
       &--red { background: #ED6454; }
+
+      p {
+        margin: 0 15px 2px 0;
+      }
 
       .close {
         cursor: pointer;

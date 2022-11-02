@@ -23,7 +23,25 @@
       opacity: 1;
       border-radius:  0 0 5px 5px;
       // width: 100%;
+      overflow-x: scroll;
       animation: open-input 400ms forwards ease-in-out;
+
+      &::-webkit-scrollbar {
+        width: 10px;
+        border-radius: 0 0 5px 5px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 0 0 5px 5px;
+      }
+
+      &--blue::-webkit-scrollbar { background: scale-color($color-primary, $lightness: 10%); }
+      &--green::-webkit-scrollbar { background: scale-color($color-secondary, $lightness: 10%); }
+      &--red::-webkit-scrollbar { background: scale-color($color-tertiary, $lightness: 10%); }
+
+      &--blue::-webkit-scrollbar-thumb { background: scale-color($color-primary, $lightness: 30%); }
+      &--green::-webkit-scrollbar-thumb { background: scale-color($color-secondary, $lightness: 30%); }
+      &--red::-webkit-scrollbar-thumb { background: scale-color($color-tertiary, $lightness: 30%); }
     }
   }
 

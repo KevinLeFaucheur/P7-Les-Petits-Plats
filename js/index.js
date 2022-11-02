@@ -4,7 +4,15 @@ import { recipes } from '/data/recipes.js';
 import { RecipeCard } from './templates/RecipeCard.js';
 import { Select } from './templates/Select.js';
 
-export const currentKeywords = [];
+const searchKeywords = [];
+
+export const addSearchKeyword = (keyword) => {
+  searchKeywords.push(keyword);
+};
+
+export const removeSearchKeyword = (keyword) => {
+  searchKeywords.splice(searchKeywords.indexOf(keyword), 1);
+};
 
 export const updateRecipes = () => {
   document.getElementById('recipes').innerHTML = '';

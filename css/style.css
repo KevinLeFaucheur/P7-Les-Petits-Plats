@@ -60,6 +60,7 @@ header .logo h1 {
 }
 #search__keywords {
   display: flex;
+  flex-wrap: wrap;
   margin-bottom: 15px;
 }
 #search__keywords .search__keyword {
@@ -67,10 +68,9 @@ header .logo h1 {
   align-items: center;
   justify-content: space-between;
   height: 37px;
-  width: 107px;
   border-radius: 5px;
   padding: 0 20px;
-  margin-right: 20px;
+  margin: 0 20px 10px 0;
   font-size: 14px;
   font-weight: 700;
   vertical-align: middle;
@@ -84,6 +84,9 @@ header .logo h1 {
 }
 #search__keywords .search__keyword--red {
   background: #ED6454;
+}
+#search__keywords .search__keyword p {
+  margin: 0 15px 2px 0;
 }
 #search__keywords .search__keyword .close {
   cursor: pointer;
@@ -186,7 +189,33 @@ header .logo h1 {
   display: flex;
   opacity: 1;
   border-radius: 0 0 5px 5px;
+  overflow-x: scroll;
   animation: open-input 400ms forwards ease-in-out;
+}
+.select.active > .select__tags::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 0 0 5px 5px;
+}
+.select.active > .select__tags::-webkit-scrollbar-thumb {
+  border-radius: 0 0 5px 5px;
+}
+.select.active > .select__tags--blue::-webkit-scrollbar {
+  background: #478ff8;
+}
+.select.active > .select__tags--green::-webkit-scrollbar {
+  background: #77ddad;
+}
+.select.active > .select__tags--red::-webkit-scrollbar {
+  background: #ef7465;
+}
+.select.active > .select__tags--blue::-webkit-scrollbar-thumb {
+  background: #70a8f9;
+}
+.select.active > .select__tags--green::-webkit-scrollbar-thumb {
+  background: #95e4bf;
+}
+.select.active > .select__tags--red::-webkit-scrollbar-thumb {
+  background: #f29387;
 }
 .select__icon {
   position: absolute;

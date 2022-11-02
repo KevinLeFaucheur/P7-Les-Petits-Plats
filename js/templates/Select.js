@@ -1,8 +1,8 @@
 /*
  * Builds the select element, receives a tag type and tags array
 */
-import { getTagsByTypeAndFilter } from "../search.js";
-import { currentKeywords } from "../index.js";
+import { getTagsByTypeAndFilter } from "../tagSearch.js";
+import { addSearchKeyword } from "../index.js";
 import { Keyword } from "./Keyword.js";
 
 export class Select {
@@ -62,7 +62,7 @@ export class Select {
       element.addEventListener('mousedown', () => {
         console.log(`Adding ${tagsArray[index]} to keywords`); // Debug console
         document.getElementById('search__keywords').appendChild(new Keyword(tagsArray[index], this.tagType).createKeyword());
-        currentKeywords.push(tagsArray[index]);
+        addSearchKeyword(tagsArray[index]);
         tagsArray.splice(index, 1);
         this.updateTagSelection(tagsArray);
       });
