@@ -16,15 +16,26 @@ export const removeSearchKeyword = (keyword) => {
   searchKeywords.splice(searchKeywords.indexOf(keyword), 1);
 };
 
-export const updateRecipes = () => {
+export const updateRecipes = (recipeIds) => {
   document.getElementById('recipes').innerHTML = '';
-  displayRecipes(recipes);
+  displayRecipes(recipeIds);
 }
 
-const displayRecipes = (recipes) => {
-  for (let i = 0; i < 6; i++) {
-    let recipe = new RecipeCard(recipes[i]).createRecipeCard();
-    document.getElementById('recipes').appendChild(recipe);
+const displayRecipes = (recipeIds = []) => {
+
+  recipes.forEach(recipe => {
+    if(recipeIds.includes(recipe.id)) {
+      let recipeCard = new RecipeCard(recipe).createRecipeCard();
+      document.getElementById('recipes').appendChild(recipeCard);
+    }
+  });
+
+  // Debug / Initial display
+  if(recipeIds.length === 0) {
+    for (let i = 0; i < 6; i++) {
+      let recipe = new RecipeCard(recipes[i]).createRecipeCard();
+      document.getElementById('recipes').appendChild(recipe);
+    }
   }
 };
 
@@ -46,9 +57,11 @@ const displaySelectors = () => {
 const setupSearchBar = () => {
   searchInput.addEventListener('input', (event) => {
     let searchEntry = event.target.value;
-    
+
     if(searchEntry.length >= 3 || searchEntry === '') {
-      search(searchEntry);
+      let recipeIds = search(searchEntry);
+      console.log(recipeIds);
+      updateRecipes(recipeIds);
     }
   });
 };
@@ -67,7 +80,7 @@ const setupSearchBar = () => {
 const initialize = () => {
   displaySelectors();
   // displayKeywords();
-  displayRecipes(recipes);
+  displayRecipes();
   setupSearchBar();
 };
 
