@@ -189,7 +189,7 @@ header .logo h1 {
   display: flex;
   opacity: 1;
   border-radius: 0 0 5px 5px;
-  overflow-x: scroll;
+  overflow-x: auto;
   animation: open-input 400ms forwards ease-in-out;
 }
 .select.active > .select__tags::-webkit-scrollbar {

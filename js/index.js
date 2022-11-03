@@ -3,8 +3,10 @@ import { recipes } from '/data/recipes.js';
 // import { Keyword } from './templates/Keyword.js';
 import { RecipeCard } from './templates/RecipeCard.js';
 import { Select } from './templates/Select.js';
+import { search } from './search.js';
 
 const searchKeywords = [];
+const searchInput = document.getElementById('search__input');
 
 export const addSearchKeyword = (keyword) => {
   searchKeywords.push(keyword);
@@ -41,9 +43,18 @@ const displaySelectors = () => {
   );
 };
 
+const setupSearchBar = () => {
+  searchInput.addEventListener('input', (event) => {
+    let searchEntry = event.target.value;
+    
+    if(searchEntry.length >= 3 || searchEntry === '') {
+      search(searchEntry);
+    }
+  });
+};
+
 // const displayKeywords = () => {
 //   const searchKeywords = document.getElementById('search__keywords');
-
 //   [['choco', 'Ingrédients'], 
 //    ['four', 'Appareils'], 
 //    ['couteau', 'Ustensiles']
@@ -57,6 +68,7 @@ const initialize = () => {
   displaySelectors();
   // displayKeywords();
   displayRecipes(recipes);
+  setupSearchBar();
 };
 
 initialize();

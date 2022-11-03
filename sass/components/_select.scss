@@ -23,7 +23,7 @@
       opacity: 1;
       border-radius:  0 0 5px 5px;
       // width: 100%;
-      overflow-x: scroll;
+      overflow-x: auto;
       animation: open-input 400ms forwards ease-in-out;
 
       &::-webkit-scrollbar {
