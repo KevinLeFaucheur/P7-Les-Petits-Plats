@@ -39,6 +39,29 @@ export const search = (searchEntry, searchKeywords) => {
   }, []);
 };
 
+// const searchByKeyword = (searchEntry, currentIds) => {
+//   let narrowedIds = [];
+
+//   // split words of length >= 3 ???
+
+//   // Normalize
+
+//   // Remove banned words ???
+
+//   currentIds.forEach(recipeId => {
+//     let index = recipes.findIndex(recipe => recipe.id === recipeId);
+
+//     if(recipes[index].name.toLowerCase().includes(searchEntry) ||
+//        recipes[index].description.toLowerCase().includes(searchEntry) ||
+//        isEntryInIngredients(recipes[index].ingredients, searchEntry)) 
+//     {
+//       narrowedIds.push(recipes[index].id);
+//     }
+    
+//   });
+//   return narrowedIds;
+// };
+
 const isEntryInIngredients = (ingredients, searchEntry) => {
   ingredients.forEach(ingredient => {
     return ingredient.ingredient.toLowerCase().includes(searchEntry);
@@ -46,6 +69,7 @@ const isEntryInIngredients = (ingredients, searchEntry) => {
 };
 
 export const searchByTag = (tag, tagType, currentIds) => {
+  console.log(tag, tagType, currentIds);
   let narrowedIds = [];
 
   currentIds.forEach(recipeId => {
@@ -71,7 +95,13 @@ export const searchByTag = (tag, tagType, currentIds) => {
           }
         });
         break;
-      default: break; // TO DO add keyword search
+      default: 
+        if(recipes[index].name.toLowerCase().includes(tag) ||
+          recipes[index].description.toLowerCase().includes(tag) ||
+          isEntryInIngredients(recipes[index].ingredients, tag)) 
+        {
+          narrowedIds.push(recipes[index].id);
+        }
     }
   }); 
   console.log(narrowedIds);

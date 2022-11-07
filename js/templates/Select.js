@@ -40,6 +40,9 @@ export class Select {
       selectInput.placeholder = `${this.placeholder}`;
       selectInput.value = '';
       setTimeout(() => select.classList.remove('active'), 50);
+
+      // TODO: Reset tag list on inactive or add current filter in placeholder (design)
+
     });
 
     selectInput.addEventListener('input', (event) => this.searchTag(event.target.value));
@@ -70,9 +73,16 @@ export class Select {
   };
 
   updateTagSelection = (filteredTags) => {
-    let selectTags = document.querySelector(`.select__tags--${this.color}`);
-    selectTags.innerHTML = '';
-    selectTags.appendChild(this.createTagSelection(filteredTags));
+    // let selectTags = document.querySelector(`.select__tags--${this.color}`);
+    // selectTags.innerHTML = '';
+    // selectTags.appendChild(this.createTagSelection(filteredTags));
+
+    // TODO: display none instead of recreating the list
+    let selectTags = document.querySelectorAll(`.select__tags--${this.color} > li`);
+    selectTags.forEach(li => {
+      if(!filteredTags.includes(li.innerText)) li.style.display = 'none';
+      else li.style.display = 'block';
+    });
   };
 
   searchTag = (filter) => {

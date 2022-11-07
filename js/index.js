@@ -4,7 +4,7 @@
 import { recipes } from '/data/recipes.js';
 import { RecipeCard } from './templates/RecipeCard.js';
 import { Select } from './templates/Select.js';
-import { search, searchByTag, searchByTags } from './search.js';
+import { searchByTag, searchByTags } from './search.js';
 
 export const searchTags = [];
 export let currentlyShownRecipesIds = recipes.map(recipe => recipe.id);
@@ -73,7 +73,9 @@ const setupSearchBar = () => {
     let searchEntry = event.target.value;
 
     if(searchEntry.length >= 3 || searchEntry === '') {
-      let recipeIds = search(searchEntry, searchTags);
+      // let recipeIds = search(searchEntry, searchTags);
+      searchTags.push( {'tag': searchEntry, 'tagType': '' } );
+      let recipeIds = searchByTags(currentlyShownRecipesIds);
       updateRecipes(recipeIds);
     }
   });

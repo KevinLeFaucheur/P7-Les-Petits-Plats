@@ -5,10 +5,10 @@ export const getIngredients = (filter) => {
 
   recipes.filter(recipe => {
     recipe.ingredients.forEach(ingredient => {
-      if(ingredient.ingredient.toLowerCase().includes(filter)) {
-        if(!filteredIngredients.includes(ingredient.ingredient.toLowerCase())) {
-          filteredIngredients.push(ingredient.ingredient.toLowerCase());
-        }
+      let recipeIngredient = ingredient.ingredient.toLowerCase();
+      
+      if(recipeIngredient.includes(filter) && !filteredIngredients.includes(recipeIngredient)) {
+        filteredIngredients.push(recipeIngredient);
       }
     });
   });
