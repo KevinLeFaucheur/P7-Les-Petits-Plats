@@ -10,8 +10,8 @@ export class Select {
   constructor(tagType) {
     this.tagType = tagType;
     this.tagsArray = getTagsByTypeAndFilter(tagType, '');
-    this.color = tagType === 'Ingrédients' ? 'blue' : tagType === 'Ustensiles' ? 'red' : 'green';
-    this.placeholder = tagType === 'Ingrédients' ? 'ingrédient' : tagType === 'Ustensiles' ? 'ustensile' : 'appareil';
+    this.color = tagType === 'ingredients' ? 'blue' : tagType === 'ustensils' ? 'red' : 'green';
+    this.placeholder = tagType === 'ingredients' ? 'Ingrédients' : tagType === 'ustensils' ? 'Ustensiles' : 'Appareils';
   }
 
   createSelect = () => {
@@ -19,7 +19,7 @@ export class Select {
     const selectFragment = document.createRange().createContextualFragment(
       `
       <div class='select'>
-        <input class='select__input select__input--${this.color}' placeholder='${this.tagType}'>
+        <input class='select__input select__input--${this.color}' placeholder='${this.placeholder}'>
         <i class="select__icon fa-sharp fa-solid fa-angle-down"></i>
 
         <ul class='select__tags select__tags--${this.color}'>
@@ -37,14 +37,12 @@ export class Select {
     });
 
     selectInput.addEventListener('focusout', () => {
-      selectInput.placeholder = `${this.tagType}`;
+      selectInput.placeholder = `${this.placeholder}`;
       selectInput.value = '';
       setTimeout(() => select.classList.remove('active'), 50);
     });
 
-    selectInput.addEventListener('input', (event) => {
-      /*if(event.target.value.length >= 3)*/ this.searchTag(event.target.value);
-    });
+    selectInput.addEventListener('input', (event) => this.searchTag(event.target.value));
 
     return selectFragment;
   };
@@ -53,18 +51,18 @@ export class Select {
     let tagSelectionFragment = new DocumentFragment();
 
     tagsArray.forEach(tag => {
-      let tagFragment = document.createRange().createContextualFragment(`<li class='select__tag'>${tag}</li>`);
+      let tagId = `${this.tagType}--${tagsArray.indexOf(tag)}`;
+      let tagFragment = document.createRange().createContextualFragment(`<li id='${tagId}' class='select__tag'>${tag}</li>`);
 
       tagSelectionFragment.append(tagFragment);
     });
 
     tagSelectionFragment.querySelectorAll('.select__tag').forEach((element, index) => {
+      let tagId = `${this.tagType}--${index}`;
       element.addEventListener('mousedown', () => {
-        console.log(`Adding ${tagsArray[index]} to keywords`); // Debug console
-        document.getElementById('search__keywords').appendChild(new Keyword(tagsArray[index], this.tagType).createKeyword());
-        addSearchKeyword(tagsArray[index]);
-        tagsArray.splice(index, 1);
-        this.updateTagSelection(tagsArray);
+        document.getElementById('search__keywords').appendChild(new Keyword(tagsArray[index], this.tagType, tagId).createKeyword());
+        addSearchKeyword(tagsArray[index], this.tagType);
+        document.getElementById(tagId).style.display = 'none';
       });
     });
 
@@ -79,7 +77,6 @@ export class Select {
 
   searchTag = (filter) => {
     let filteredIngredients = getTagsByTypeAndFilter(this.tagType, filter);
-    console.log(filteredIngredients); // Debug console
     this.updateTagSelection(filteredIngredients);
   };
 }

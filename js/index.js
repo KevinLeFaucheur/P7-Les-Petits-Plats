@@ -3,17 +3,24 @@ import { recipes } from '/data/recipes.js';
 // import { Keyword } from './templates/Keyword.js';
 import { RecipeCard } from './templates/RecipeCard.js';
 import { Select } from './templates/Select.js';
-import { search } from './search.js';
+import { search, searchByTag, searchByTags } from './search.js';
 
-const searchKeywords = [];
+export const searchTags = [];
+export let currentlyShownRecipesIds = recipes.map(recipe => recipe.id);
+export let recipeIds = [];
+
 const searchInput = document.getElementById('search__input');
 
-export const addSearchKeyword = (keyword) => {
-  searchKeywords.push(keyword);
+export const addSearchKeyword = (tag, tagType) => {
+  searchTags.push( {'tag': tag, 'tagType': tagType } );
+  recipeIds = searchByTag(tag, tagType, currentlyShownRecipesIds);
+  updateRecipes(recipeIds);
 };
 
-export const removeSearchKeyword = (keyword) => {
-  searchKeywords.splice(searchKeywords.indexOf(keyword), 1);
+export const removeSearchKeyword = (tag) => {
+  searchTags.splice(searchTags.findIndex(item => item.tag === tag), 1);
+  recipeIds = [...searchByTags(recipes.map(recipe => recipe.id))];
+  updateRecipes(recipeIds);
 };
 
 export const updateRecipes = (recipeIds) => {
@@ -23,19 +30,25 @@ export const updateRecipes = (recipeIds) => {
 
 const displayRecipes = (recipeIds = []) => {
 
-  recipes.forEach(recipe => {
-    if(recipeIds.includes(recipe.id)) {
-      let recipeCard = new RecipeCard(recipe).createRecipeCard();
-      document.getElementById('recipes').appendChild(recipeCard);
-    }
-  });
-
   // Debug / Initial display
   if(recipeIds.length === 0) {
-    for (let i = 0; i < 6; i++) {
-      let recipe = new RecipeCard(recipes[i]).createRecipeCard();
-      document.getElementById('recipes').appendChild(recipe);
-    }
+
+    let fragment = document.createRange().createContextualFragment(
+    `Aucune recette ne correspond à votre critère… vous pouvez
+    chercher « tarte aux pommes », « poisson », etc.`);
+
+    document.getElementById('recipes').appendChild(fragment);
+
+  } else {
+
+    recipes.forEach(recipe => {
+      if(recipeIds.includes(recipe.id)) {
+        let recipeCard = new RecipeCard(recipe).createRecipeCard();
+        document.getElementById('recipes').appendChild(recipeCard);
+      }
+    });
+    currentlyShownRecipesIds = [...recipeIds];
+    recipeIds = [];
   }
 };
 
@@ -47,7 +60,7 @@ export const updateSelectors = (updatedTags) => {
 const displaySelectors = () => {
   const searchTags = document.getElementById('search__tags');
 
-  ['Ingrédients', 'Appareils', 'Ustensiles'].forEach(tagType => {
+  ['ingredients', 'appliance', 'ustensils'].forEach(tagType => {
       let select = new Select(tagType).createSelect();
       searchTags.appendChild(select);
     }
@@ -59,28 +72,27 @@ const setupSearchBar = () => {
     let searchEntry = event.target.value;
 
     if(searchEntry.length >= 3 || searchEntry === '') {
-      let recipeIds = search(searchEntry);
-      console.log(recipeIds);
+      let recipeIds = search(searchEntry, searchTags);
       updateRecipes(recipeIds);
     }
   });
 };
 
 // const displayKeywords = () => {
-//   const searchKeywords = document.getElementById('search__keywords');
+//   const searchTags = document.getElementById('search__keywords');
 //   [['choco', 'Ingrédients'], 
 //    ['four', 'Appareils'], 
 //    ['couteau', 'Ustensiles']
 //   ].forEach(element => {
 //     let keyword = new Keyword(element[0], element[1]).createKeyword();
-//     searchKeywords.appendChild(keyword);
+//     searchTags.appendChild(keyword);
 //   });
 // };
 
 const initialize = () => {
   displaySelectors();
   // displayKeywords();
-  displayRecipes();
+  displayRecipes(currentlyShownRecipesIds);
   setupSearchBar();
 };
 

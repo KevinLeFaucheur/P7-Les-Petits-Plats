@@ -45,8 +45,8 @@ export const getUstensils = (filter) => {
 
 export const getTagsByTypeAndFilter = (tagType, filter) => {
   switch(tagType) {
-    case 'Ingrédients': return getIngredients(filter);
-    case 'Appareils': return getAppliances(filter);
-    case 'Ustensiles': return getUstensils(filter);
+    case 'ingredients': return getIngredients(filter);
+    case 'appliance': return getAppliances(filter);
+    case 'ustensils': return getUstensils(filter);
   }
 };

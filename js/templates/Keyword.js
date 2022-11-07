@@ -5,10 +5,11 @@ import { removeSearchKeyword } from "../index.js";
 
 export class Keyword {
 
-  constructor(keywordName, keywordType) {
+  constructor(keywordName, keywordType, keywordId) {
     this.keywordName = keywordName;
     this.keywordType = keywordType;
-    this.color = keywordType === 'Ingrédients' ? 'blue' : keywordType === 'Ustensiles' ? 'red' : 'green';
+    this.keywordId = keywordId;
+    this.color = keywordType === 'ingredients' ? 'blue' : keywordType === 'ustensils' ? 'red' : 'green';
   }
 
   createKeyword = () => {
@@ -23,7 +24,8 @@ export class Keyword {
       .querySelector('.close')
       .addEventListener('click', (event) => {
         event.target.parentElement.remove();
-        removeSearchKeyword(this.keywordName);
+        removeSearchKeyword(this.keywordName, this.keywordType);
+        document.getElementById(this.keywordId).style.display = 'block';
     });
 
     return keywordFragment;
