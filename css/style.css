@@ -58,12 +58,12 @@ header .logo h1 {
   padding: 18px 20px;
   z-index: 2;
 }
-#search__keywords {
+#search__tags {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 15px;
 }
-#search__keywords .search__keyword {
+#search__tags .search__tag {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -76,22 +76,22 @@ header .logo h1 {
   vertical-align: middle;
   color: white;
 }
-#search__keywords .search__keyword--blue {
+#search__tags .search__tag--blue {
   background: #3282F7;
 }
-#search__keywords .search__keyword--green {
+#search__tags .search__tag--green {
   background: #68D9A4;
 }
-#search__keywords .search__keyword--red {
+#search__tags .search__tag--red {
   background: #ED6454;
 }
-#search__keywords .search__keyword p {
+#search__tags .search__tag p {
   margin: 0 15px 2px 0;
 }
-#search__keywords .search__keyword .close {
+#search__tags .search__tag .close {
   cursor: pointer;
 }
-#search__tags {
+#search__selects {
   display: flex;
   margin-bottom: 25px;
 }

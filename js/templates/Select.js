@@ -2,8 +2,8 @@
  * Builds the select element, receives a tag type and tags array
 */
 import { getTagsByTypeAndFilter } from "../tagSearch.js";
-import { addSearchKeyword } from "../index.js";
-import { Keyword } from "./Keyword.js";
+import { addSearchTag } from "../index.js";
+import { Tag } from "./Tag.js";
 
 export class Select {
 
@@ -60,8 +60,8 @@ export class Select {
     tagSelectionFragment.querySelectorAll('.select__tag').forEach((element, index) => {
       let tagId = `${this.tagType}--${index}`;
       element.addEventListener('mousedown', () => {
-        document.getElementById('search__keywords').appendChild(new Keyword(tagsArray[index], this.tagType, tagId).createKeyword());
-        addSearchKeyword(tagsArray[index], this.tagType);
+        document.getElementById('search__tags').appendChild(new Tag(tagsArray[index], this.tagType, tagId).createTag());
+        addSearchTag(tagsArray[index], this.tagType);
         document.getElementById(tagId).style.display = 'none';
       });
     });

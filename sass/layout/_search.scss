@@ -38,12 +38,12 @@
     z-index: 2;
   }
   
-  &__keywords {
+  &__tags {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 15px;
 
-    .search__keyword {
+    .search__tag {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -73,7 +73,7 @@
     }
   }
   
-  &__tags {
+  &__selects {
     display: flex;
     margin-bottom: 25px;
   }

@@ -1,6 +1,7 @@
-// import * as Data from './utils/data.js';
+/*
+ *
+*/
 import { recipes } from '/data/recipes.js';
-// import { Keyword } from './templates/Keyword.js';
 import { RecipeCard } from './templates/RecipeCard.js';
 import { Select } from './templates/Select.js';
 import { search, searchByTag, searchByTags } from './search.js';
@@ -11,13 +12,13 @@ export let recipeIds = [];
 
 const searchInput = document.getElementById('search__input');
 
-export const addSearchKeyword = (tag, tagType) => {
+export const addSearchTag = (tag, tagType) => {
   searchTags.push( {'tag': tag, 'tagType': tagType } );
   recipeIds = searchByTag(tag, tagType, currentlyShownRecipesIds);
   updateRecipes(recipeIds);
 };
 
-export const removeSearchKeyword = (tag) => {
+export const removeSearchTag = (tag) => {
   searchTags.splice(searchTags.findIndex(item => item.tag === tag), 1);
   recipeIds = [...searchByTags(recipes.map(recipe => recipe.id))];
   updateRecipes(recipeIds);
@@ -53,12 +54,12 @@ const displayRecipes = (recipeIds = []) => {
 };
 
 export const updateSelectors = (updatedTags) => {
-  document.getElementById('search__tags').innerHTML = '';
+  document.getElementById('search__selects').innerHTML = '';
   displaySelectors(updatedTags);
 }
 
 const displaySelectors = () => {
-  const searchTags = document.getElementById('search__tags');
+  const searchTags = document.getElementById('search__selects');
 
   ['ingredients', 'appliance', 'ustensils'].forEach(tagType => {
       let select = new Select(tagType).createSelect();
@@ -78,20 +79,8 @@ const setupSearchBar = () => {
   });
 };
 
-// const displayKeywords = () => {
-//   const searchTags = document.getElementById('search__keywords');
-//   [['choco', 'Ingrédients'], 
-//    ['four', 'Appareils'], 
-//    ['couteau', 'Ustensiles']
-//   ].forEach(element => {
-//     let keyword = new Keyword(element[0], element[1]).createKeyword();
-//     searchTags.appendChild(keyword);
-//   });
-// };
-
 const initialize = () => {
   displaySelectors();
-  // displayKeywords();
   displayRecipes(currentlyShownRecipesIds);
   setupSearchBar();
 };
