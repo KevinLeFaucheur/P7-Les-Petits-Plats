@@ -70,10 +70,14 @@ const displaySelectors = () => {
 
 const setupSearchBar = () => {
   searchInput.addEventListener('input', (event) => {
-    let searchEntry = event.target.value;
+    let searchEntry = event.target.value.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
 
-    if(searchEntry.length >= 3 || searchEntry === '') {
-      // let recipeIds = search(searchEntry, searchTags);
+    if(searchEntry === '') {
+      let recipeIds = [...recipes.map(recipe => recipe.id)]; // TODO caching all ids
+      updateRecipes(recipeIds);
+    }
+
+    if(searchEntry.length >= 3) {
       searchTags.push( {'tag': searchEntry, 'tagType': '' } );
       let recipeIds = searchByTags(currentlyShownRecipesIds);
       updateRecipes(recipeIds);

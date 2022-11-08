@@ -39,82 +39,90 @@ export const search = (searchEntry, searchKeywords) => {
   }, []);
 };
 
-// const searchByKeyword = (searchEntry, currentIds) => {
-//   let narrowedIds = [];
-
-//   // split words of length >= 3 ???
-
-//   // Normalize
-
-//   // Remove banned words ???
-
-//   currentIds.forEach(recipeId => {
-//     let index = recipes.findIndex(recipe => recipe.id === recipeId);
-
-//     if(recipes[index].name.toLowerCase().includes(searchEntry) ||
-//        recipes[index].description.toLowerCase().includes(searchEntry) ||
-//        isEntryInIngredients(recipes[index].ingredients, searchEntry)) 
-//     {
-//       narrowedIds.push(recipes[index].id);
-//     }
-    
-//   });
-//   return narrowedIds;
-// };
-
-const isEntryInIngredients = (ingredients, searchEntry) => {
-  ingredients.forEach(ingredient => {
-    return ingredient.ingredient.toLowerCase().includes(searchEntry);
-  });
-};
-
-export const searchByTag = (tag, tagType, currentIds) => {
-  console.log(tag, tagType, currentIds);
-  let narrowedIds = [];
-
-  currentIds.forEach(recipeId => {
-    let index = recipes.findIndex(recipe => recipe.id === recipeId);
-
-    switch(tagType) {
-      case 'ingredients': 
-        recipes[index].ingredients.forEach(ingredient => {
-          if(ingredient.ingredient.toLowerCase().includes(tag)) {
-            narrowedIds.push(recipes[index].id);
-          }
-        });
-        break;
-      case 'appliance': 
-        if(recipes[index].appliance.toLowerCase().includes(tag)) {
-          narrowedIds.push(recipes[index].id);
-        } 
-        break;
-      case 'ustensils': 
-        recipes[index].ustensils.forEach(ustensil => {
-          if(ustensil.toLowerCase().includes(tag)) {
-            narrowedIds.push(recipes[index].id);
-          }
-        });
-        break;
-      default: 
-        if(recipes[index].name.toLowerCase().includes(tag) ||
-          recipes[index].description.toLowerCase().includes(tag) ||
-          isEntryInIngredients(recipes[index].ingredients, tag)) 
-        {
-          narrowedIds.push(recipes[index].id);
-        }
-    }
-  }); 
-  console.log(narrowedIds);
-  return narrowedIds;
-};
-
 export const searchByTags = (recipeIds) => {
-  console.log(recipeIds, searchTags);
   let newRecipeIds = [...recipeIds];
 
   searchTags.forEach(tag => {
     newRecipeIds = searchByTag(tag.tag, tag.tagType, newRecipeIds);
   });
-  console.log(newRecipeIds);
   return newRecipeIds;
+};
+
+export const searchByTag = (tag, tagType, currentIds) => {
+  let narrowedIds = [];
+
+  currentIds.forEach(currentId => {
+    let recipe = recipes.find(recipe => recipe.id === currentId);
+
+    switch(tagType) {
+      case 'ingredients': 
+        if(searchThroughIngredients(recipe, tag)) narrowedIds.push(recipe.id);
+        // recipe.ingredients.forEach(ingredient => {
+        //   if(ingredient.ingredient.toLowerCase().includes(tag)) {
+        //     narrowedIds.push(recipe.id);
+        //   }
+        // });
+        break;
+      case 'appliance': 
+        if(searchThroughAppliance(recipe, tag)) narrowedIds.push(recipe.id);
+        // if(recipe.appliance.toLowerCase().includes(tag)) {
+        //   narrowedIds.push(recipe.id);
+        // } 
+        break;
+      case 'ustensils': 
+      if(searchThroughUstensils(recipe, tag)) narrowedIds.push(recipe.id);
+        // recipe.ustensils.forEach(ustensil => {
+        //   if(ustensil.toLowerCase().includes(tag)) {
+        //     narrowedIds.push(recipe.id);
+        //   }
+        // });
+        break;
+      default: 
+        if(searchThroughRecipe(recipe, tag)) narrowedIds.push(recipe.id);
+        // if(recipe.name.toLowerCase().includes(tag) ||
+        //   recipe.description.toLowerCase().includes(tag) ||
+        //   isEntryInIngredients(recipe.ingredients, tag)) 
+        // {
+        //   narrowedIds.push(recipe.id);
+        // }
+    }
+  }); 
+  console.log(`Looking for ${tag} -> ${tagType}`);
+  console.log(currentIds);
+  console.log(narrowedIds);
+  console.log(recipes.filter(recipe => narrowedIds.includes(recipe.id)));
+  return narrowedIds;
+};
+
+const searchThroughIngredients = (recipe, tag) => {
+  return recipe.ingredients
+          .map(x => x.ingredient)
+          .some(ingredient => ingredient
+                                .toLowerCase()
+                                .normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+                                .includes(tag));
+};
+
+const searchThroughAppliance = (recipe, tag) => {
+  return recipe.appliance.toLowerCase().includes(tag);
+};
+
+const searchThroughUstensils = (recipe, tag) => {
+  return recipe.ustensils.some(ustensil => ustensil.toLowerCase().includes(tag) );
+};
+
+const searchThroughRecipe = (recipe, tag) => {
+  return (recipe.name.toLowerCase().includes(tag) ||
+    recipe.description.toLowerCase().includes(tag) ||
+    // isEntryInIngredients(recipe.ingredients, tag));
+    searchThroughIngredients(recipe, tag));
+};
+
+const isEntryInIngredients = (ingredients, searchEntry) => {
+  ingredients.forEach(ingredient => {
+    return ingredient.ingredient
+            .toLowerCase()
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+            .includes(searchEntry);
+  });
 };

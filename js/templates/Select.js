@@ -76,8 +76,7 @@ export class Select {
     // let selectTags = document.querySelector(`.select__tags--${this.color}`);
     // selectTags.innerHTML = '';
     // selectTags.appendChild(this.createTagSelection(filteredTags));
-
-    // TODO: display none instead of recreating the list
+    
     let selectTags = document.querySelectorAll(`.select__tags--${this.color} > li`);
     selectTags.forEach(li => {
       if(!filteredTags.includes(li.innerText)) li.style.display = 'none';
