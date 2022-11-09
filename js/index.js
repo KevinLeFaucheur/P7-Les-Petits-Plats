@@ -73,12 +73,13 @@ const setupSearchBar = () => {
     let searchEntry = event.target.value.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
 
     if(searchEntry === '') {
-      let recipeIds = [...recipes.map(recipe => recipe.id)]; // TODO caching all ids
-      // reset including tags
+      searchTags.splice(searchTags.findIndex(tag => tag.tagType === ''), 1);
+      let recipeIds = searchByTags([...recipes.map(recipe => recipe.id)]);
       updateRecipes(recipeIds);
     }
 
     if(searchEntry.length >= 3) {
+      searchTags.splice(searchTags.findIndex(tag => tag.tagType === ''), 1);
       searchTags.push( {'tag': searchEntry, 'tagType': '' } );
       let recipeIds = searchByTags(currentlyShownRecipesIds);
       updateRecipes(recipeIds);
