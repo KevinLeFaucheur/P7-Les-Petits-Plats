@@ -101,6 +101,11 @@ header .logo h1 {
   flex-wrap: wrap;
   justify-content: space-between;
 }
+.recipe::after {
+  content: "";
+  flex: 0 0 32%;
+  max-width: 380px;
+}
 .recipe__card {
   display: flex;
   flex-direction: column;

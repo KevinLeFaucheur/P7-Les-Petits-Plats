@@ -38,11 +38,8 @@ export class Select {
 
     selectInput.addEventListener('focusout', () => {
       selectInput.placeholder = `${this.placeholder}`;
-      selectInput.value = '';
+      // selectInput.value = '';
       setTimeout(() => select.classList.remove('active'), 50);
-
-      // TODO: Reset tag list on inactive or add current filter in placeholder (design)
-
     });
 
     selectInput.addEventListener('input', (event) => this.searchTag(event.target.value));
@@ -72,11 +69,7 @@ export class Select {
     return tagSelectionFragment;
   };
 
-  updateTagSelection = (filteredTags) => {
-    // let selectTags = document.querySelector(`.select__tags--${this.color}`);
-    // selectTags.innerHTML = '';
-    // selectTags.appendChild(this.createTagSelection(filteredTags));
-    
+  updateTagSelection = (filteredTags) => {    
     let selectTags = document.querySelectorAll(`.select__tags--${this.color} > li`);
     selectTags.forEach(li => {
       if(!filteredTags.includes(li.innerText)) li.style.display = 'none';

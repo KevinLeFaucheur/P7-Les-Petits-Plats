@@ -35,18 +35,18 @@ export class RecipeCard {
   // TODO: check if ingredients.quantity / ingredients.unit are undefined
   createIngredientList = () => {
     let ingredientList = '';
-    this.recipe.ingredients.forEach( i => {
-      ingredientList += `<li><p class="recipe__ingredients--name">${i.ingredient}:&nbsp;</p>`;
+    this.recipe.ingredients.forEach(item => {
+      ingredientList += `<li><p class="recipe__ingredients--name">${item.ingredient}:&nbsp;</p>`;
 
-      if(i.quantity != undefined) {
-        ingredientList += `<p class="recipe__ingredients--quantity">${i.quantity}`;
+      if(item.quantity != undefined) {
+        ingredientList += `<p class="recipe__ingredients--quantity">${item.quantity}`;
       }
 
-      if(i.unit != undefined) {
-        switch(i.unit) {
+      if(item.unit != undefined) {
+        switch(item.unit) {
           case 'grammes': ingredientList += `g</p>`; break;
           case 'cuillères à soupe': ingredientList += ` cuillères</p>`; break;
-          default: ingredientList += `${i.unit}</p>`;
+          default: ingredientList += `${item.unit}</p>`;
         }
       }
 

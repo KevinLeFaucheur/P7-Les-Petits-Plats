@@ -2,6 +2,12 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  
+  &::after {
+    content: "";
+    flex: 0 0 32%;
+    max-width: 380px;
+  }
 
   &__card {
     display: flex;
@@ -13,10 +19,6 @@
     margin-bottom: 50px;
     background: #C7BEBE;
     border-radius: 5px;
-
-    // &:last-child {
-    //   justify-content: flex-start;
-    // }
   }
 
   &__image {

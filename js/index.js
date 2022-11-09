@@ -4,7 +4,7 @@
 import { recipes } from '/data/recipes.js';
 import { RecipeCard } from './templates/RecipeCard.js';
 import { Select } from './templates/Select.js';
-import { searchByTag, searchByTags } from './search.js';
+import { narrowIdsByTag, searchByTags } from './search.js';
 
 export const searchTags = [];
 export let currentlyShownRecipesIds = recipes.map(recipe => recipe.id);
@@ -14,7 +14,7 @@ const searchInput = document.getElementById('search__input');
 
 export const addSearchTag = (tag, tagType) => {
   searchTags.push( {'tag': tag, 'tagType': tagType } );
-  recipeIds = searchByTag(tag, tagType, currentlyShownRecipesIds);
+  recipeIds = narrowIdsByTag(tag, tagType, currentlyShownRecipesIds);
   updateRecipes(recipeIds);
 };
 
