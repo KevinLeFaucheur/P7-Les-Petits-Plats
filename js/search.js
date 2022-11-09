@@ -58,7 +58,7 @@ const searchThroughIngredients = (recipe, tag) => {
   let ingredientArray = recipe.ingredients;
 
   for(let i in ingredientArray) {
-    if(ingredientArray[i].ingredient.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(tag)) 
+    if(isIncluded(ingredientArray[i].ingredient, tag)) 
     {
       return true;
     }
@@ -68,7 +68,7 @@ const searchThroughIngredients = (recipe, tag) => {
 
 // 
 const searchThroughAppliance = (recipe, tag) => {
-  return recipe.appliance.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(tag);
+  return isIncluded(recipe.appliance, tag);
 };
 
 // 
@@ -76,7 +76,7 @@ const searchThroughUstensils = (recipe, tag) => {
   let ustensilArray = recipe.ustensils;
 
   for(let i in ustensilArray) {
-    if(ustensilArray[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(tag)) 
+    if(isIncluded(ustensilArray[i], tag)) 
     {
       return true;
     }
@@ -87,17 +87,21 @@ const searchThroughUstensils = (recipe, tag) => {
 // 
 const searchThroughRecipe = (recipe, tag) => {
 
-  if(recipe.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(tag)) {
+  if(isIncluded(recipe.name, tag)) {
     return true;
   }
   else if(searchThroughIngredients(recipe, tag)) {
     return true;
   }
-  else if(recipe.description.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(tag))
+  else if(isIncluded(recipe.description, tag))
   {
     return true;
   }
   return false;
+};
+
+const isIncluded = (entry, tag) => {
+  return entry.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(tag);
 };
 
 //// - - - - - -
