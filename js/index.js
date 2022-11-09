@@ -74,6 +74,7 @@ const setupSearchBar = () => {
 
     if(searchEntry === '') {
       let recipeIds = [...recipes.map(recipe => recipe.id)]; // TODO caching all ids
+      // reset including tags
       updateRecipes(recipeIds);
     }
 

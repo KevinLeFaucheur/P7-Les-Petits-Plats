@@ -9,9 +9,9 @@ import { searchTags } from './index.js';
 export const searchByTags = (recipeIds) => {
   let narrowedIds = [...recipeIds];
 
-  searchTags.forEach(tag => {
+  for(let tag of searchTags) {
     narrowedIds = narrowIdsByTag(tag.tag, tag.tagType, narrowedIds);
-  });
+  }
   return narrowedIds;
 };
 
@@ -19,23 +19,33 @@ export const searchByTags = (recipeIds) => {
 export const narrowIdsByTag = (tag, tagType, currentIds) => {
   let narrowedIds = [];
 
-  currentIds.forEach(currentId => {
-    let recipe = recipes.find(recipe => recipe.id === currentId);
+  let recipe;
+  for (let id of currentIds) {
 
-    switch(tagType) {
-      case 'ingredients': 
-        if(searchThroughIngredients(recipe, tag)) narrowedIds.push(recipe.id);
+    for(let i of recipes) {
+
+      if(i.id === id) {
+        recipe = i;
+
+        switch(tagType) {
+          case 'ingredients': 
+            if(searchThroughIngredients(recipe, tag)) narrowedIds.push(recipe.id);
+            break;
+          case 'appliance': 
+            if(searchThroughAppliance(recipe, tag)) narrowedIds.push(recipe.id);
+            break;
+          case 'ustensils': 
+          if(searchThroughUstensils(recipe, tag)) narrowedIds.push(recipe.id);
+            break;
+          default: 
+            if(searchThroughRecipe(recipe, tag)) narrowedIds.push(recipe.id);
+        } 
+
         break;
-      case 'appliance': 
-        if(searchThroughAppliance(recipe, tag)) narrowedIds.push(recipe.id);
-        break;
-      case 'ustensils': 
-      if(searchThroughUstensils(recipe, tag)) narrowedIds.push(recipe.id);
-        break;
-      default: 
-        if(searchThroughRecipe(recipe, tag)) narrowedIds.push(recipe.id);
+      }
     }
-  }); 
+  }
+
   console.log(`Looking for ${tag} -> ${tagType}`);
   console.log(currentIds);
   console.log(narrowedIds);
@@ -45,29 +55,49 @@ export const narrowIdsByTag = (tag, tagType, currentIds) => {
 
 // 
 const searchThroughIngredients = (recipe, tag) => {
-  return recipe.ingredients
-          .map(item => item.ingredient)
-          .some(ingredient => ingredient
-                                .toLowerCase()
-                                .normalize('NFD').replace(/[\u0300-\u036f]/g, "")
-                                .includes(tag));
+  let ingredientArray = recipe.ingredients;
+
+  for(let i in ingredientArray) {
+    if(ingredientArray[i].ingredient.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(tag)) 
+    {
+      return true;
+    }
+  }
+  return false;
 };
 
 // 
 const searchThroughAppliance = (recipe, tag) => {
-  return recipe.appliance.toLowerCase().includes(tag);
+  return recipe.appliance.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(tag);
 };
 
 // 
 const searchThroughUstensils = (recipe, tag) => {
-  return recipe.ustensils.some(ustensil => ustensil.toLowerCase().includes(tag) );
+  let ustensilArray = recipe.ustensils;
+
+  for(let i in ustensilArray) {
+    if(ustensilArray[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(tag)) 
+    {
+      return true;
+    }
+  }
+  return false;
 };
 
 // 
 const searchThroughRecipe = (recipe, tag) => {
-  return (recipe.name.toLowerCase().includes(tag) ||
-    recipe.description.toLowerCase().includes(tag) ||
-    searchThroughIngredients(recipe, tag));
+
+  if(recipe.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(tag)) {
+    return true;
+  }
+  else if(searchThroughIngredients(recipe, tag)) {
+    return true;
+  }
+  else if(recipe.description.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(tag))
+  {
+    return true;
+  }
+  return false;
 };
 
 //// - - - - - -
