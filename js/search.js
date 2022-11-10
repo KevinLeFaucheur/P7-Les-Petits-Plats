@@ -47,27 +47,28 @@ export const narrowIdsByTag = (tag, tagType, currentIds) => {
 const searchThroughIngredients = (recipe, tag) => {
   return recipe.ingredients
           .map(item => item.ingredient)
-          .some(ingredient => ingredient
-                                .toLowerCase()
-                                .normalize('NFD').replace(/[\u0300-\u036f]/g, "")
-                                .includes(tag));
+          .some(ingredient => isIncluded(ingredient, tag));
 };
 
 // 
 const searchThroughAppliance = (recipe, tag) => {
-  return recipe.appliance.toLowerCase().includes(tag);
+  return isIncluded(recipe.appliance, tag);
 };
 
 // 
 const searchThroughUstensils = (recipe, tag) => {
-  return recipe.ustensils.some(ustensil => ustensil.toLowerCase().includes(tag) );
+  return recipe.ustensils.some(ustensil => isIncluded(ustensil, tag));
 };
 
 // 
 const searchThroughRecipe = (recipe, tag) => {
-  return (recipe.name.toLowerCase().includes(tag) ||
-    recipe.description.toLowerCase().includes(tag) ||
-    searchThroughIngredients(recipe, tag));
+  return (isIncluded(recipe.name, tag) ||
+          isIncluded(recipe.description, tag) ||
+          searchThroughIngredients(recipe, tag));
+};
+
+const isIncluded = (entry, tag) => {
+  return entry.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(tag);
 };
 
 //// - - - - - -
