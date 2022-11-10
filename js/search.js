@@ -86,18 +86,9 @@ const searchThroughUstensils = (recipe, tag) => {
 
 // 
 const searchThroughRecipe = (recipe, tag) => {
-
-  if(isIncluded(recipe.name, tag)) {
-    return true;
-  }
-  else if(searchThroughIngredients(recipe, tag)) {
-    return true;
-  }
-  else if(isIncluded(recipe.description, tag))
-  {
-    return true;
-  }
-  return false;
+  return (isIncluded(recipe.name, tag) ||
+          isIncluded(recipe.description, tag) ||
+          searchThroughIngredients(recipe, tag));
 };
 
 const isIncluded = (entry, tag) => {
