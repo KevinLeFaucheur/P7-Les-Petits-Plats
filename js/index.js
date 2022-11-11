@@ -5,6 +5,7 @@ import { recipes } from '/data/recipes.js';
 import { RecipeCard } from './templates/RecipeCard.js';
 import { Select } from './templates/Select.js';
 import { narrowIdsByTag, searchByTags } from './search.js';
+import { narrowTagSelection } from './tagSearch.js';
 
 export const searchTags = [];
 export let currentlyShownRecipesIds = recipes.map(recipe => recipe.id);
@@ -76,6 +77,7 @@ const setupSearchBar = () => {
       searchTags.splice(searchTags.findIndex(tag => tag.tagType === ''), 1);
       let recipeIds = searchByTags([...recipes.map(recipe => recipe.id)]);
       updateRecipes(recipeIds);
+      updateTags(narrowTagSelection(recipeIds));
     }
 
     if(searchEntry.length >= 3) {
@@ -83,7 +85,28 @@ const setupSearchBar = () => {
       searchTags.push( {'tag': searchEntry, 'tagType': '' } );
       let recipeIds = searchByTags(currentlyShownRecipesIds);
       updateRecipes(recipeIds);
+      updateTags(narrowTagSelection(recipeIds));
+      console.log((narrowTagSelection(recipeIds)));
     }
+  });
+};
+
+const updateTags = (tagsArray) => {
+  let ingredientTags = document.querySelectorAll('.select__tags--blue > li');
+  let applianceTags = document.querySelectorAll('.select__tags--green > li');
+  let ustensilTags = document.querySelectorAll('.select__tags--red > li');
+
+  ingredientTags.forEach(li => {
+    if(!tagsArray[0].includes(li.innerText)) li.style.display = 'none';
+    else li.style.display = 'block';
+  });
+  applianceTags.forEach(li => {
+    if(!tagsArray[1].includes(li.innerText)) li.style.display = 'none';
+    else li.style.display = 'block';
+  });
+  ustensilTags.forEach(li => {
+    if(!tagsArray[2].includes(li.innerText)) li.style.display = 'none';
+    else li.style.display = 'block';
   });
 };
 

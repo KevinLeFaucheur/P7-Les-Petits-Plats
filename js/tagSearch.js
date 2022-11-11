@@ -50,3 +50,32 @@ export const getTagsByTypeAndFilter = (tagType, filter) => {
     case 'ustensils': return getUstensils(filter);
   }
 };
+
+export const narrowTagSelection = (recipeIds) => {
+  let filteredRecipes = recipes.filter(recipe => recipeIds.includes(recipe.id));
+
+  let filteredApplianceTags = [];
+  let filteredUstensilTags = [];
+  let filteredIngredientTags = [];
+
+  filteredRecipes.forEach(recipe => {
+    if(!filteredApplianceTags.includes(recipe.appliance.toLowerCase())) {
+      filteredApplianceTags.push(recipe.appliance.toLowerCase());
+    }
+    recipe.ustensils.forEach(ustensil => {
+      let recipeUstensil = ustensil.toLowerCase();
+
+      if(!filteredUstensilTags.includes(recipeUstensil)) {
+        filteredUstensilTags.push(recipeUstensil);
+      }
+    });
+    recipe.ingredients.forEach(ingredient => {
+      let recipeIngredient = ingredient.ingredient.toLowerCase();
+      
+      if(!filteredIngredientTags.includes(recipeIngredient)) {
+        filteredIngredientTags.push(recipeIngredient);
+      }
+    });
+  });
+  return [filteredIngredientTags, filteredApplianceTags, filteredUstensilTags];
+};
