@@ -1,43 +1,31 @@
 import { recipes } from '/data/recipes.js';
 
-export const getIngredients = (filter) => {
+export const getIngredientTags = () => {
   let filteredIngredients = [];
 
   recipes.filter(recipe => {
     recipe.ingredients.forEach(ingredient => {
-      let recipeIngredient = ingredient.ingredient.toLowerCase();
-      
-      if(recipeIngredient.includes(filter) && !filteredIngredients.includes(recipeIngredient)) {
-        filteredIngredients.push(recipeIngredient);
-      }
+      pushTagIntoArray(ingredient.ingredient, filteredIngredients);
     });
   });
   return filteredIngredients;
 };
 
-export const getAppliances = (filter) => {
+export const getApplianceTags = () => {
   let filteredAppliances = [];
 
   recipes.filter(recipe => {
-    let recipeAppliance = recipe.appliance.toLowerCase();
-
-    if(recipeAppliance.includes(filter) && !filteredAppliances.includes(recipeAppliance)) {
-      filteredAppliances.push(recipeAppliance);
-    }
+    pushTagIntoArray(recipe.appliance, filteredAppliances);
   });
   return filteredAppliances;
 };
 
-export const getUstensils = (filter) => {
+export const getUstensilTags = () => {
   let filteredUstensils = [];
 
   recipes.filter(recipe => {
     recipe.ustensils.forEach(ustensil => {
-      let recipeUstensil = ustensil.toLowerCase();
-
-      if(recipeUstensil.includes(filter) && !filteredUstensils.includes(recipeUstensil)) {
-        filteredUstensils.push(recipeUstensil);
-      }
+      pushTagIntoArray(ustensil, filteredUstensils);
     });
   });
   return filteredUstensils;
@@ -45,9 +33,9 @@ export const getUstensils = (filter) => {
 
 export const getTagsByTypeAndFilter = (tagType, filter) => {
   switch(tagType) {
-    case 'ingredients': return getIngredients(filter);
-    case 'appliance': return getAppliances(filter);
-    case 'ustensils': return getUstensils(filter);
+    case 'ingredients': return getIngredientTags().filter(ingredient => ingredient.includes(filter.toLowerCase()));
+    case 'appliance': return getApplianceTags().filter(ingredient => ingredient.includes(filter.toLowerCase()));
+    case 'ustensils': return getUstensilTags().filter(ingredient => ingredient.includes(filter.toLowerCase()));
   }
 };
 
@@ -59,23 +47,22 @@ export const narrowTagSelection = (recipeIds) => {
   let filteredIngredientTags = [];
 
   filteredRecipes.forEach(recipe => {
-    if(!filteredApplianceTags.includes(recipe.appliance.toLowerCase())) {
-      filteredApplianceTags.push(recipe.appliance.toLowerCase());
-    }
-    recipe.ustensils.forEach(ustensil => {
-      let recipeUstensil = ustensil.toLowerCase();
+    pushTagIntoArray(recipe.appliance, filteredApplianceTags);
 
-      if(!filteredUstensilTags.includes(recipeUstensil)) {
-        filteredUstensilTags.push(recipeUstensil);
-      }
+    recipe.ustensils.forEach(ustensil => {
+      pushTagIntoArray(ustensil, filteredUstensilTags);
     });
+
     recipe.ingredients.forEach(ingredient => {
-      let recipeIngredient = ingredient.ingredient.toLowerCase();
-      
-      if(!filteredIngredientTags.includes(recipeIngredient)) {
-        filteredIngredientTags.push(recipeIngredient);
-      }
+      pushTagIntoArray(ingredient.ingredient, filteredIngredientTags);
     });
   });
   return [filteredIngredientTags, filteredApplianceTags, filteredUstensilTags];
+};
+
+const pushTagIntoArray = (tag, array) => {
+  let newTag = tag.toLowerCase();
+  if(!array.includes(newTag)) {
+    array.push(newTag);
+  }
 };
