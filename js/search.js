@@ -9,8 +9,8 @@ import { searchTags } from './index.js';
 export const searchByTags = (recipeIds) => {
   let narrowedIds = [...recipeIds];
 
-  for(let tag of searchTags) {
-    narrowedIds = narrowIdsByTag(tag.tag, tag.tagType, narrowedIds);
+  for(let i = 0, n = searchTags.length; i < n; i++) {
+    narrowedIds = narrowIdsByTag(searchTags[i].tag, searchTags[i].tagType, narrowedIds);
   }
   return narrowedIds;
 };
@@ -20,12 +20,12 @@ export const narrowIdsByTag = (tag, tagType, currentIds) => {
   let narrowedIds = [];
 
   let recipe;
-  for (let id of currentIds) {
+  for (let i = 0, n = currentIds.length; i < n; i++) {
 
-    for(let i of recipes) {
+    for(let j = 0, m = recipes.length; i < m; j++) {
 
-      if(i.id === id) {
-        recipe = i;
+      if(recipes[j].id === currentIds[i]) {
+        recipe = recipes[j];
 
         switch(tagType) {
           case 'ingredients': 
@@ -40,8 +40,7 @@ export const narrowIdsByTag = (tag, tagType, currentIds) => {
           default: 
             if(searchThroughRecipe(recipe, tag)) narrowedIds.push(recipe.id);
         } 
-
-        break;
+        // break;
       }
     }
   }
@@ -57,7 +56,7 @@ export const narrowIdsByTag = (tag, tagType, currentIds) => {
 const searchThroughIngredients = (recipe, tag) => {
   let ingredientArray = recipe.ingredients;
 
-  for(let i in ingredientArray) {
+  for(let i = 0, n = ingredientArray.length; i < n; i++) {
     if(isIncluded(ingredientArray[i].ingredient, tag)) 
     {
       return true;
@@ -73,10 +72,10 @@ const searchThroughAppliance = (recipe, tag) => {
 
 // 
 const searchThroughUstensils = (recipe, tag) => {
-  let ustensilArray = recipe.ustensils;
+  let ustensils = recipe.ustensils;
 
-  for(let i in ustensilArray) {
-    if(isIncluded(ustensilArray[i], tag)) 
+  for(let i = 0, n = ustensils.length; i < n; i++) {
+    if(isIncluded(ustensils[i], tag))
     {
       return true;
     }
@@ -93,42 +92,4 @@ const searchThroughRecipe = (recipe, tag) => {
 
 const isIncluded = (entry, tag) => {
   return entry.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(tag);
-};
-
-//// - - - - - -
-
-// List of words of length >= 3 removed
-const removedWords = ['les','des','aux','dans','une','par'];
-
-// Obsoloete
-export const search = (searchEntry, searchKeywords) => {
-
-  // split words of length >= 3 
-  let splitEntries = searchEntry.match(/[\w]{3,}/ig) ?? [];
-
-  // Normalize
-
-  // Remove banned words
-  if(splitEntries != null) {
-    splitEntries.forEach(entry => {
-      if(removedWords.includes(entry)) {
-        splitEntries.splice(splitEntries.indexOf(entry), 1);
-      }
-    });
-  }
-
-  // Push into all tags
-  let searchEntries = [...splitEntries, ...searchKeywords.map(x => x.tag) ];
-  console.log(`Searching for ${searchEntries}`);
-
-  // TODO: search with mutliple words
-  return recipes.reduce((filteredRecipesIds, recipe) => {
-    if(recipe.name.toLowerCase().includes(searchEntry) ||
-       recipe.description.toLowerCase().includes(searchEntry) ||
-       searchThroughRecipe(recipe, searchEntry)) 
-    {
-      filteredRecipesIds.push(recipe.id);
-    }
-    return filteredRecipesIds;
-  }, []);
 };

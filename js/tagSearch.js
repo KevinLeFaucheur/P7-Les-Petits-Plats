@@ -50,6 +50,7 @@ export const narrowTagSelection = (recipeIds) => {
     pushTagIntoArray(recipe.appliance, filteredApplianceTags);
 
     recipe.ustensils.forEach(ustensil => {
+      console.log(ustensil);
       pushTagIntoArray(ustensil, filteredUstensilTags);
     });
 
