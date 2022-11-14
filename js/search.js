@@ -67,8 +67,12 @@ const searchThroughRecipe = (recipe, tag) => {
           searchThroughIngredients(recipe, tag));
 };
 
-const isIncluded = (entry, tag) => {
-  return entry.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(tag);
+export const isIncluded = (entry, tag) => {
+  return format(entry).includes(format(tag));
+};
+
+const format = (word) => {
+  return word.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
 };
 
 //// - - - - - -
