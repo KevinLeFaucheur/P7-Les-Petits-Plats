@@ -38,8 +38,8 @@ export class Select {
 
     selectInput.addEventListener('focusout', () => {
       selectInput.placeholder = `${this.placeholder}`;
-      // selectInput.value = '';
-      setTimeout(() => select.classList.remove('active'), 50);
+      // setTimeout because race condition with mousedown
+      setTimeout(() => select.classList.remove('active'), 50); 
     });
 
     selectInput.addEventListener('input', (event) => this.searchTag(event.target.value));
@@ -47,6 +47,7 @@ export class Select {
     return selectFragment;
   };
 
+  // Builds a list of tags from a given array
   createTagSelection = (tagsArray) => {
     let tagSelectionFragment = new DocumentFragment();
 
@@ -69,6 +70,7 @@ export class Select {
     return tagSelectionFragment;
   };
 
+  // Updates each tag to display block or none if tag is present or not
   updateTagSelection = (filteredTags) => {    
     let selectTags = document.querySelectorAll(`.select__tags--${this.color} > li`);
     selectTags.forEach(li => {

@@ -1,5 +1,6 @@
 /* 
  * Constructor for a recipe card, receives a recipe object
+ * Builds a document fragment to append
 */
 export class RecipeCard {
   constructor(recipe) {
@@ -32,7 +33,6 @@ export class RecipeCard {
     return recipeCardFragment;
   }
 
-  // TODO: check if ingredients.quantity / ingredients.unit are undefined
   createIngredientList = () => {
     let ingredientList = '';
     this.recipe.ingredients.forEach(item => {

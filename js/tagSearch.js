@@ -31,14 +31,21 @@ export const getUstensilTags = () => {
   return filteredUstensils;
 };
 
+/* Filters tags from all available, by a received filter
+*  Each tag type has its own getter
+*/
 export const getTagsByTypeAndFilter = (tagType, filter) => {
   switch(tagType) {
     case 'ingredients': return getIngredientTags().filter(ingredient => ingredient.includes(filter.toLowerCase()));
-    case 'appliance': return getApplianceTags().filter(ingredient => ingredient.includes(filter.toLowerCase()));
-    case 'ustensils': return getUstensilTags().filter(ingredient => ingredient.includes(filter.toLowerCase()));
+    case 'appliance': return getApplianceTags().filter(appliance => appliance.includes(filter.toLowerCase()));
+    case 'ustensils': return getUstensilTags().filter(ustensil => ustensil.includes(filter.toLowerCase()));
   }
 };
 
+
+/* Receives array of current recipe IDs, and get tags from recipes.
+ * Returns tags filtered into 3 arrays .
+*/
 export const narrowTagSelection = (recipeIds) => {
   let filteredRecipes = recipes.filter(recipe => recipeIds.includes(recipe.id));
 

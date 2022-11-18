@@ -1,11 +1,11 @@
 /* 
- * Search functions for main bar and toggling tags
- * Narrowing the recipe Ids to display
+ * Search functions for main search input field and tags
+ * Narrowing the current shown recipe IDs to display
 */
 import { recipes } from '/data/recipes.js';
 import { searchTags } from './index.js'; 
 
-// Going through each tag, user entry included
+// Looping through each tag, main search input included
 export const searchByTags = (recipeIds) => {
   let narrowedIds = [...recipeIds];
 
@@ -15,7 +15,10 @@ export const searchByTags = (recipeIds) => {
   return narrowedIds;
 };
 
-// Reduce the recipe Ids given by single tag
+/* Reduce the current recipe IDs given, by single tag
+ * Each tag type has its own search through a recipe
+ * Default case runs for the main search input field
+*/
 export const narrowIdsByTag = (tag, tagType, currentIds) => {
   let narrowedIds = [];
 
@@ -43,24 +46,20 @@ export const narrowIdsByTag = (tag, tagType, currentIds) => {
   return narrowedIds;
 };
 
-// 
 const searchThroughIngredients = (recipe, tag) => {
   return recipe.ingredients
           .map(item => item.ingredient)
           .some(ingredient => isIncluded(ingredient, tag));
 };
 
-// 
 const searchThroughAppliance = (recipe, tag) => {
   return isIncluded(recipe.appliance, tag);
 };
 
-// 
 const searchThroughUstensils = (recipe, tag) => {
   return recipe.ustensils.some(ustensil => isIncluded(ustensil, tag));
 };
 
-// 
 const searchThroughRecipe = (recipe, tag) => {
   return (isIncluded(recipe.name, tag) ||
           isIncluded(recipe.description, tag) ||
@@ -71,44 +70,7 @@ export const isIncluded = (entry, tag) => {
   return format(entry).includes(format(tag));
 };
 
+// Format string to lower case, unicode normalization, diacritics are replaced
 const format = (word) => {
   return word.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-};
-
-//// - - - - - -
-
-// List of words of length >= 3 removed
-const removedWords = ['les','des','aux','dans','une','par'];
-
-// Obsoloete
-export const search = (searchEntry, searchKeywords) => {
-
-  // split words of length >= 3 
-  let splitEntries = searchEntry.match(/[\w]{3,}/ig) ?? [];
-
-  // Normalize
-
-  // Remove banned words
-  if(splitEntries != null) {
-    splitEntries.forEach(entry => {
-      if(removedWords.includes(entry)) {
-        splitEntries.splice(splitEntries.indexOf(entry), 1);
-      }
-    });
-  }
-
-  // Push into all tags
-  let searchEntries = [...splitEntries, ...searchKeywords.map(x => x.tag) ];
-  console.log(`Searching for ${searchEntries}`);
-
-  // TODO: search with mutliple words
-  return recipes.reduce((filteredRecipesIds, recipe) => {
-    if(recipe.name.toLowerCase().includes(searchEntry) ||
-       recipe.description.toLowerCase().includes(searchEntry) ||
-       searchThroughRecipe(recipe, searchEntry)) 
-    {
-      filteredRecipesIds.push(recipe.id);
-    }
-    return filteredRecipesIds;
-  }, []);
 };
