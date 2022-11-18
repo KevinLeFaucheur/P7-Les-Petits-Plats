@@ -1,5 +1,5 @@
 /*
- * Constructor for a tag element, receives name and type
+ * Constructor for a tag element, receives name to display and type for color
 */
 import { removeSearchTag } from "../index.js";
 

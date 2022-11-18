@@ -1,5 +1,5 @@
 /*
- *
+ * JavaScript entry point for the index.html page
 */
 import { recipes } from '/data/recipes.js';
 import { RecipeCard } from './templates/RecipeCard.js';
@@ -30,9 +30,10 @@ export const updateRecipes = (recipeIds) => {
   displayRecipes(recipeIds);
 }
 
+// Calls the RecipeCard constructor for each corresponding ID
 const displayRecipes = (recipeIds = []) => {
 
-  // Debug / Initial display
+  // Initially display all recipes
   if(recipeIds.length === 0) {
 
     let fragment = document.createRange().createContextualFragment(
@@ -59,6 +60,7 @@ export const updateSelectors = (updatedTags) => {
   displaySelectors(updatedTags);
 }
 
+// Calls the Select constructor for each type of select
 const displaySelectors = () => {
   const searchTags = document.getElementById('search__selects');
 
@@ -69,6 +71,7 @@ const displaySelectors = () => {
   );
 };
 
+// Setup events for main search bar input field
 const setupSearchBar = () => {
   searchInput.addEventListener('input', (event) => {
     let searchEntry = event.target.value.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
@@ -86,12 +89,13 @@ const setupSearchBar = () => {
       let recipeIds = searchByTags(currentlyShownRecipesIds);
       updateRecipes(recipeIds);
       updateTags(narrowTagSelection(recipeIds));
-      console.log('Narrowed Tags:');
-      console.log(narrowTagSelection(recipeIds));
     }
   });
 };
 
+/* Updates each tag to display block or none if tag is present or not
+ * This updates tags for all 3 selectors
+*/
 const updateTags = (tagsArray) => {
   let ingredientTags = document.querySelectorAll('.select__tags--blue > li');
   let applianceTags = document.querySelectorAll('.select__tags--green > li');

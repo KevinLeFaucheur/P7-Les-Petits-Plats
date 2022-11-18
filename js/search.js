@@ -1,11 +1,11 @@
 /* 
- * Search functions for main bar and toggling tags
- * Narrowing the recipe Ids to display
+ * Search functions for main search input field and tags
+ * Narrowing the current shown recipe IDs to display
 */
 import { recipes } from '/data/recipes.js';
 import { searchTags } from './index.js'; 
 
-// Going through each tag, user entry included
+// Looping through each tag, main search input included
 export const searchByTags = (recipeIds) => {
   let narrowedIds = [...recipeIds];
 
@@ -15,7 +15,10 @@ export const searchByTags = (recipeIds) => {
   return narrowedIds;
 };
 
-// Reduce the recipe Ids given by single tag
+/* Reduce the current recipe IDs given, by single tag
+ * Each tag type has its own search through a recipe
+ * Default case runs for the main search input field
+*/
 export const narrowIdsByTag = (tag, tagType, currentIds) => {
   let narrowedIds = [];
 
@@ -40,19 +43,12 @@ export const narrowIdsByTag = (tag, tagType, currentIds) => {
           default: 
             if(searchThroughRecipe(recipe, tag)) narrowedIds.push(recipe.id);
         } 
-        // break;
       }
     }
   }
-
-  console.log(`Looking for ${tag} -> ${tagType}`);
-  console.log(currentIds);
-  console.log(narrowedIds);
-  console.log(recipes.filter(recipe => narrowedIds.includes(recipe.id)));
   return narrowedIds;
 };
 
-// 
 const searchThroughIngredients = (recipe, tag) => {
   let ingredientArray = recipe.ingredients;
 
@@ -65,12 +61,10 @@ const searchThroughIngredients = (recipe, tag) => {
   return false;
 };
 
-// 
 const searchThroughAppliance = (recipe, tag) => {
   return isIncluded(recipe.appliance, tag);
 };
 
-// 
 const searchThroughUstensils = (recipe, tag) => {
   let ustensils = recipe.ustensils;
 
@@ -83,13 +77,17 @@ const searchThroughUstensils = (recipe, tag) => {
   return false;
 };
 
-// 
 const searchThroughRecipe = (recipe, tag) => {
   return (isIncluded(recipe.name, tag) ||
           isIncluded(recipe.description, tag) ||
           searchThroughIngredients(recipe, tag));
 };
 
-const isIncluded = (entry, tag) => {
-  return entry.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(tag);
+export const isIncluded = (entry, tag) => {
+  return format(entry).includes(format(tag));
+};
+
+// Format string to lower case, unicode normalization, diacritics are replaced
+const format = (word) => {
+  return word.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
 };
