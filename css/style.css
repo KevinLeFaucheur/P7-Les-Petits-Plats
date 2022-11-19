@@ -4,6 +4,10 @@ body {
   padding: 3% 7%;
 }
 
+h2 {
+  display: none;
+}
+
 header .logo {
   display: flex;
   flex-direction: column;
