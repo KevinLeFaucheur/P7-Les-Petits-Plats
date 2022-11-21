@@ -89,7 +89,7 @@ const setupSearchBar = () => {
       let recipeIds = searchByTags(currentlyShownRecipesIds);
       updateRecipes(recipeIds);
       updateTags(narrowTagSelection(recipeIds));
-      console.log((narrowTagSelection(recipeIds)));
+      // console.log((narrowTagSelection(recipeIds)));
     }
   });
 };

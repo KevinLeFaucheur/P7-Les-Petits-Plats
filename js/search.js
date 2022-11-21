@@ -40,8 +40,8 @@ export const narrowIdsByTag = (tag, tagType, currentIds) => {
     }
   }); 
   console.log(`Looking for ${tag} -> ${tagType}`);
-  console.log(currentIds);
-  console.log(narrowedIds);
+  // console.log(currentIds);
+  // console.log(narrowedIds);
   console.log(recipes.filter(recipe => narrowedIds.includes(recipe.id)));
   return narrowedIds;
 };
