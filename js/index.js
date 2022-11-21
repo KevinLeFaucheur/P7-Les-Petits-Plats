@@ -104,16 +104,18 @@ const updateTags = (tagsArray) => {
   let applianceTags = document.querySelectorAll('.select__tags--green > li');
   let ustensilTags = document.querySelectorAll('.select__tags--red > li');
 
+  let pinnedTags = searchTags.map(tag => tag.tag);
+
   ingredientTags.forEach(li => {
-    if(!tagsArray[0].includes(li.innerText)) li.style.display = 'none';
+    if(!tagsArray[0].includes(li.innerText) || pinnedTags.includes(li.innerText)) li.style.display = 'none';
     else li.style.display = 'block';
   });
   applianceTags.forEach(li => {
-    if(!tagsArray[1].includes(li.innerText)) li.style.display = 'none';
+    if(!tagsArray[1].includes(li.innerText) || pinnedTags.includes(li.innerText)) li.style.display = 'none';
     else li.style.display = 'block';
   });
   ustensilTags.forEach(li => {
-    if(!tagsArray[2].includes(li.innerText)) li.style.display = 'none';
+    if(!tagsArray[2].includes(li.innerText) || pinnedTags.includes(li.innerText)) li.style.display = 'none';
     else li.style.display = 'block';
   });
 };
