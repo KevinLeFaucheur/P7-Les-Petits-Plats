@@ -25,7 +25,7 @@ export const narrowIdsByTag = (tag, tagType, currentIds) => {
   let recipe;
   for (let i = 0, n = currentIds.length; i < n; i++) {
 
-    for(let j = 0, m = recipes.length; i < m; j++) {
+    for(let j = 0, m = recipes.length; j < m; j++) {
 
       if(recipes[j].id === currentIds[i]) {
         recipe = recipes[j];
@@ -46,6 +46,8 @@ export const narrowIdsByTag = (tag, tagType, currentIds) => {
       }
     }
   }
+  console.log(`Looking for ${tag} -> ${tagType}`);
+  console.log(recipes.filter(recipe => narrowedIds.includes(recipe.id)));
   return narrowedIds;
 };
 
