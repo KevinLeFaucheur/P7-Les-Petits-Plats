@@ -1,4 +1,5 @@
 import { recipes } from '/data/recipes.js';
+import { isIncluded } from './search.js';
 
 export const getIngredientTags = () => {
   let filteredIngredients = [];
@@ -36,9 +37,9 @@ export const getUstensilTags = () => {
 */
 export const getTagsByTypeAndFilter = (tagType, filter) => {
   switch(tagType) {
-    case 'ingredients': return getIngredientTags().filter(ingredient => ingredient.includes(filter.toLowerCase()));
-    case 'appliance': return getApplianceTags().filter(appliance => appliance.includes(filter.toLowerCase()));
-    case 'ustensils': return getUstensilTags().filter(ustensil => ustensil.includes(filter.toLowerCase()));
+    case 'ingredients': return getIngredientTags().filter(ingredient => isIncluded(ingredient, filter));
+    case 'appliance': return getApplianceTags().filter(appliance => isIncluded(appliance, filter));
+    case 'ustensils': return getUstensilTags().filter(ustensil => isIncluded(ustensil, filter));
   }
 };
 
