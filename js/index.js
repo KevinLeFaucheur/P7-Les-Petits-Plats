@@ -17,12 +17,14 @@ export const addSearchTag = (tag, tagType) => {
   searchTags.push( {'tag': tag, 'tagType': tagType } );
   recipeIds = narrowIdsByTag(tag, tagType, currentlyShownRecipesIds);
   updateRecipes(recipeIds);
+  updateTags(narrowTagSelection(recipeIds));
 };
 
 export const removeSearchTag = (tag) => {
   searchTags.splice(searchTags.findIndex(item => item.tag === tag), 1);
   recipeIds = [...searchByTags(recipes.map(recipe => recipe.id))];
   updateRecipes(recipeIds);
+  updateTags(narrowTagSelection(recipeIds));
 };
 
 export const updateRecipes = (recipeIds) => {
